@@ -1,0 +1,10 @@
+1.MySQL安裝項目
+MySQL Server
+MySQL workbench -->GUI
+MySQL for Visual Studio -->不確定是否需要
+Connector/Net -->C#才可在參考中找到相關的dll
+
+
+欄位名稱不可重複。
+無陣列型別。
+中文可。
