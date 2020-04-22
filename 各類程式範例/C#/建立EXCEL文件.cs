@@ -1,3 +1,4 @@
+//參考 > 加入參考 > 瀏覽 > C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel > 往裡面的資料夾內找到 Microsoft.Office.Interop.Excel.dll
 //引用
 using System.Data.OleDb;
 using Excel = Microsoft.Office.Interop.Excel;

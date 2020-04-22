@@ -1,0 +1,25 @@
+1.
+console.log(str1+str2); -->XX
+console.log(str1,str2); -->OO
+2. declare object
+Human Robert:Human = new Human("Robert",eSex.male,30); -->XX
+var Robert:Human = new Human("Robert",eSex.male,30); -->OO
+3. in class
+class Human
+{
+    name:string;
+    constructor(name:string)
+    {
+        this.name=name;
+    }
+}
+-------------------------------->OO
+class Human
+{
+    var name:string;
+    constructor(name:string)
+    {
+        this.name=name;
+    }
+}
+-------------------------------->XX
