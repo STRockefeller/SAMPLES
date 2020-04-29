@@ -1,0 +1,5 @@
+懶人包:總之放在body標籤的最下面。
+
+理論上放在head以及body皆可被執行
+但html由上而下直譯若script中有選擇器指向body中的物件則在head中會因為找不到目標而無效
+同理若script中使用到jquery或bootstrap語法但script位置在其cdn之前也會因為語法不被識別而失效
