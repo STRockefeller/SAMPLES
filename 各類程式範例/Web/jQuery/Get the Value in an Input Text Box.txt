@@ -1,0 +1,4 @@
+$("#the ID of your input tag in HTML").val()
+
+not
+$("#the ID of your input tag in HTML").text()
