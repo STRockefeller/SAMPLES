@@ -24,11 +24,20 @@ namespace CrawlerTest20200813
         {
             //url -->目標網址
             string url = "https://www.automobile.tn/fr/neuf/bmw";
+			
+			#region htmlClient 功能同下二擇一即可，經測試發現部分網頁無法正常執行httpClient.GetStringAsync，原因不明。
             HttpClient httpClient = new HttpClient();
             //html --> 會得到目標網址的html全部內容(就像檢視網頁原始碼這樣)
             string html = await httpClient.GetStringAsync(url);
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
+			#endregion
+			
+			#region webclient 功能同上二擇一即可
+            HtmlWeb webClient = new HtmlWeb();
+            HtmlAgilityPack.HtmlDocument htmlDocument = webClient.Load(url);
+            #endregion
+			
             //divs = SELECT div FROM html WHERE class = 'versions-item';
             List<HtmlNode> divs = htmlDocument.DocumentNode.Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "").Equals("versions-item")).ToList();
