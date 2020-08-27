@@ -103,7 +103,7 @@ namespace EventTest
 
 * 發佈者
 
-  委派實例
+  委派宣告
 
   ```C#
   public tellWho lastNews;
