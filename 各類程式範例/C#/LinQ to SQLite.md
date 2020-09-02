@@ -95,7 +95,7 @@ T4教學文章https://dotblogs.com.tw/johnny/2014/04/29/t4-step-by-step
 
 註：LinqToDB.Templates\LinqToDB.SQLite.Tools.ttinclude以及LinqToDB.Templates\PluralizationService.ttinclude這兩個檔案要在NuGet安裝**linq2db.SQLite**才會出現。
 
-註：使用模板生成.cs的話可以略過下方一部份的步驟。
+註：使用模板生成.cs的話可以略過下方一部份的步驟，基本上只要在做完Congfiguration就可以linq了。
 
 
 
@@ -191,6 +191,8 @@ namespace DataModels
             string dataPath = "C:\\Users\\admin\\source\\repos\\20200831LinQ_SQLite_Test\\20200831LinQ_SQLite_Test\\DB\\FenrirFS.db";
             string connectionString = $"data source ={dataPath}";
 ```
+
+其他情況可以參考官方提供的Connection String 寫法 https://www.connectionstrings.com/sqlite/
 
 ### 得到options builder以及data connection物件
 
@@ -349,3 +351,9 @@ table class
     }
 ```
 
+## 疑難雜症
+
+### 資料庫登入失敗
+
+* 檢查Configuration設定是否完成
+* 檢查ConnectionString帳號密碼是否正確(沒有就不用設)
