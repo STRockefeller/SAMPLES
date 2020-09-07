@@ -11,6 +11,7 @@
 建議設定
 
 * 專案建立時把SSL認證取消勾選
+* 取消HTTPS
 * Debug選擇專案名稱而非IIS
 
 ---
@@ -146,7 +147,15 @@ services.AddMvc(options => options.EnableEndpointRouting = false);
 services.AddControllers(options => options.EnableEndpointRouting = false);
 ```
 
+### 雜項提醒
 
+#### 引用本地檔案
+
+引用本地css/js時，與非MVC專案相同，記得將檔案放入wwwroot中，否則不論以什麼路徑寫法都無法找到檔案。(也可以寫gulp省事)
+
+#### HTTPS
+
+在建立專案時，若有勾選，則Debug時可能會有部分腳本被封鎖而無法動作，若不慎忘記取消勾選，可以在專案屬性-->偵錯-->Web伺服器設定-->應用程式URL(P):中將https改為http。
 
 ## MVC 框架
 
@@ -406,3 +415,209 @@ Test string is" <b>@Model.testString</b>".
 * View side sample
 
   `@TempData["message"]`
+
+### View的動態內容
+
+[Reference](https://www.cnblogs.com/willick/p/3410855.html)
+
+總體來說，View中的内容可以靜態和動態兩個部分。靜態内容一般是html元素，而動態内容指的是在程式執行的時候動態生成的内容。以下是在VIEW加入動態內容的幾種常見作法：
+
+- **Inline code**：小片段程式，如 if 和 foreach。
+- **Html helper方法**：用來生成HTML元素，如view model、ViewBag等。
+- **Section**：在指定的位置插入内容。
+- **Partial view**：存在於一個單獨的VIEW文件中，最為子内容可在多個VIEW中共享。
+- **Child action**：調用 controller 中的 action 來返回一個view，並將結果插入到輸出流中。
+
+#### Section
+
+Razor View 引擎支援將View中的一部分内容分離出來，以便在需要的地方重複利用，減少了程式碼的冗餘。
+
+可以看到預設的Views\Shared\_Layout.cshtml 中在`<footer></footer>`的下方就有用到section`@RenderSection("Scripts", required: false)`
+
+試著使用這個section插入內容。改寫MVCTestView/index.cshtml
+
+```C#
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model MVCTest.Models.TestMVCModel
+
+Test string is" <b>@Model.testString</b>".
+<p><b id="scriptStatus"></b></p>
+<p><button type="button" class="btn btn-primary" id="btnGO">GO</button></p>
+    
+@section Scripts {
+    <div>this is section Scripts</div>
+	<script>
+            $(document).ready(function () {
+                $("#scriptStatus").text("Script active");
+            });
+            $("#btnGO").click(function () {
+                window.location.href = "./RouteTest";
+            });
+     </script>
+}
+```
+
+為方便閱讀把@section寫在文章對應的相對位置處，`@RenderSection("Scripts", required: false)`是寫在最後面，所以這邊也寫到後方，前面的內容會跑到`@RenderBody`裡面。
+
+![](https://i.imgur.com/P29Ed8v.png)
+
+執行後可以看到，插入的內容確實有加入html中。
+
+
+
+當然，依一樣的格式，我們也可以自己決定插入位置以及內容
+
+如改寫layout
+
+```C#
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVCTest</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    @RenderSection("Header",false)
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVCTest</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - MVCTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Footer",false)
+</body>
+</html>
+```
+
+注意要是RenderSection使用`public Task<HtmlString> RenderSectionAsync(string name);`這個多載(沒有傳入required參數)，則頁面中若未定義該名稱的內容就會跳錯誤，換句話說有requred=false則可以隨意插入或不插入內容，反之則必須插入內容。
+
+插入內容端，作法很簡單
+
+```C#
+@section Header{}
+@section Footer{}
+```
+
+也可以做一些運算
+
+```C#
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model MVCTest.Models.TestMVCModel
+
+@section Header{ 
+    <div class="Header">
+        @for (int i = 0; i < 10; i++)
+            @i
+        </div>
+}
+Test string is" <b>@Model.testString</b>".
+<p><b id="scriptStatus"></b></p>
+<p><button type="button" class="btn btn-primary" id="btnGO">GO</button></p>
+@section Footer{
+    <div>this is section Footer</div>
+    <script>
+        $(document).ready(function () {
+            $("#scriptStatus").text("Script active");
+        });
+        $("#btnGO").click(function () {
+            window.location.href = "./RouteTest";
+        });
+    </script>
+}
+```
+
+結果如下
+
+![](https://i.imgur.com/aVpNgQe.png)
+
+#### Partial View
+
+Partial view是將部分 Razor 和 Html 標籤放在一個獨立的View文件中，以便在不同的地方重複利用。
+
+在Shared底下建立新的檢視，並勾選建立成局部檢視
+
+![](https://i.imgur.com/l9h3nDA.png)
+
+接著在裡面加入一點訊息
+
+```html
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div>
+    This is the message from the partial view.
+    @Html.ActionLink("This is a link to the Index action", "Index")
+</div> 
+```
+
+在Controller中新增一個action
+
+```C#
+        public ActionResult List()
+        {
+            return View();
+        }
+```
+
+View中加入對應的cshtml(List.cshtml)
+
+```html
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewBag.Title = "List";
+    Layout = null;
+}
+<h3>This is the /Views/TestMVC/List.cshtml View</h3>
+@Html.Partial("MyPartialView")
+```
+
+
+
+執行並進入TestMVC/List
+
+![](https://i.imgur.com/9nzBdUp.png)
