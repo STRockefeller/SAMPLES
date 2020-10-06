@@ -53,7 +53,70 @@ um...進階測試time out
 
 進階測試跳index out of range 以及 divide by zero
 
+針對錯誤輸入修改了一下後
 
+![](https://i.imgur.com/AmWJ0jO.png)
+
+???題目不是說`each argument is assumed to be a non-negative integer`怎會給出負值的答案
+
+---
+
+突然又想到一個解法，找List裡面最大的數，不斷的往上乘直到找到最小公倍數為止，實作如下
+
+```C#
+        public static int Lcm(List<int> nums)
+        {
+            if (nums.Any(num => num == 0)) { return 0; }
+            if (nums.Count < 1) { return 1; }
+            int maxNum = nums.Max();
+            for (int i = 1; ; i++)
+                if (nums.All(n => (maxNum * i) % n == 0))
+                    return maxNum * i;
+        }
+```
+
+然後就過關了，到最後我還是不知道上一個解法錯在哪裡
 
 ## Better Solutions
 
+
+
+### Solution 1
+
+```C#
+using System.Linq;
+using System.Collections.Generic;
+
+public static class Kata
+{
+    public static int Lcm(List<int> nums)
+    {
+        if (nums.Count == 0) return 1;
+        if (nums.Contains(0)) return 0;
+
+        var sum = nums.Max();
+        while (nums.Count(i => sum % i == 0) != nums.Count)
+            sum += nums.Max();
+
+        return sum;
+    }
+}
+```
+
+和我最後一個解法差不多
+
+
+
+### Solution 2
+
+```C#
+using System.Linq;
+using System.Collections.Generic;
+public static class Kata
+{
+  private static int Gcf(int a, int b) => b == 0 ? a : Gcf(b, a%b);
+  public static int Lcm(IEnumerable<int> nums) => nums.Any() ? nums.Aggregate((g, x) => g*x/Gcf(g,x)) : 1;
+}
+```
+
+[MSDN:Aggregate](https://docs.microsoft.com/zh-tw/dotnet/api/system.linq.enumerable.aggregate?view=netcore-3.1)
