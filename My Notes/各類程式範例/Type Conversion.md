@@ -318,7 +318,8 @@ char c = (char)i;
 TypeScript
 
 ```typescript
-
+var i:number = 99;
+var c:string = String.fromCharCode(i);
 ```
 
 #### From string
@@ -329,26 +330,46 @@ TypeScript
 
 ---
 
-C
-
-```C
-
-```
-
----
-
 C++
 
 ```C++
-
+string str = "Hi~";
+char cArr[1024];
+strcpy(cArr, str.c_str());
 ```
+
+```C++
+string str = "Hi~";
+char cArr[1024];
+strncpy(cArr, str.c_str(), sizeof(cArr));
+cArr[sizeof(cArr) - 1] = 0;
+```
+
+```C++
+string str = "Hi~";
+char * cArr = new char [str.length()+1];
+strcpy (cArr, str.c_str());
+```
+
+
 
 ---
 
 C#
 
 ```C#
+string str = "Hi~";
+char[] cArr = str.ToCharArray();
+```
 
+```C#
+string str = "Hi~";
+char[] cArr = str.ToArray();
+```
+
+```C#
+string str = "Hi~";
+char[] cArr = str.Select(c=>c).ToArray();
 ```
 
 ---
@@ -356,6 +377,7 @@ C#
 TypeScript
 
 ```typescript
-
+var str: string = "Hi~";
+var cArr: string[] = str.split('');
 ```
 
