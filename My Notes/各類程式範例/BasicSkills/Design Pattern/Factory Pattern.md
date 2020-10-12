@@ -1,4 +1,4 @@
-# Factory Method
+# Factory Pattern
 
 [Reference:Ithelp](https://ithelp.ithome.com.tw/articles/10202075)
 
@@ -444,6 +444,8 @@ namespace SimpleAbstractFactoryPattern
 
 ## 實作
 
+### 實作一
+
 假設我要一個工廠專門生產噗尼
 
 噗尼
@@ -529,3 +531,139 @@ namespace DesignPattern20201008
 
 
 如果我要新加入一種`RainbowPuni:StrongPuni`我只要新建完Class就可以運作而不需要去更動Factory
+
+### 實作二
+
+一大堆XX工廠模式一起學，馬上就搞混了，再實作一次把他們弄清楚吧
+
+這次我想要有一個兵營專門生產士兵
+
+士兵:偵查兵和突擊兵，種類可能會再新增
+
+```C#
+	public interface Ipawn { string getType(); }
+	public class Scout : Ipawn { public string getType() => "I'm a scout."; }
+	public class Shocktrooper : Ipawn { public string getType() => "I'm a shocktrooper."; }
+```
+
+#### 簡單工廠
+
+```C#
+	public class SimpleFactory
+    {
+		public static Ipawn trainningPawn(string type)
+        {
+			switch (type)
+            {
+				case "scout":
+					return new Scout();
+				case "shocktrooper":
+					return new Shocktrooper();
+				default:
+					return null;
+			}
+        }
+    }
+```
+
+若要訓練新的兵種，則必須在`SimpleFactory.trainningPawn`加入新的`case`(違反開閉原則)
+
+#### 工廠模式
+
+```C#
+	public interface IFactory { Ipawn trainningPawn(); }
+    public class ScoutFactory : IFactory{ public Ipawn trainningPawn() => new Scout(); }
+	public class ShocktrooperFactory : IFactory { public Ipawn trainningPawn() => new Shocktrooper(); }
+```
+
+將工廠上提變為介面
+
+若要訓練新的兵種，只要加入新的class並繼承IFactory就可以了(擴充而非修改符合開閉原則)
+
+#### 抽象工廠
+
+把問題再複雜化
+
+今天若有兩個訓練營都在訓練士兵且兵種相同(但訓練出來會有些許差異)
+
+以工廠方法模式實現就會變成加利亞偵查兵工廠、加利亞突擊兵工廠、帝國偵查兵工廠...有點太冗長了
+
+```C#
+	public class GalliaScout : Scout { }
+	public class GalliaShocktrooper : Shocktrooper { }
+	public class EmpireScout : Scout { }
+	public class EmpireShocktrooper : Shocktrooper { }
+	public interface IAbstractFactory
+    {
+		public Scout tranningScout();
+		public Shocktrooper trainningShocktrooper();
+    }
+    public class GalliaFactory : IAbstractFactory
+    {
+		public Shocktrooper trainningShocktrooper() => new GalliaShocktrooper();
+		public Scout tranningScout() => new GalliaScout();
+    }
+	public class EmpireFactory : IAbstractFactory
+	{
+		public Shocktrooper trainningShocktrooper() => new EmpireShocktrooper();
+		public Scout tranningScout() => new EmpireScout();
+	}
+```
+
+以抽象工廠實現後如上
+
+如果我們想要新增新的訓練營例如聯邦訓練營，只要新增class並繼承`IAbstractFactory`就可以了(符合開閉原則)
+
+如果想要增加兵種，則必須修改介面方法，全部的工廠也必須實作新方法(違反開閉原則)
+
+#### 完整內容
+
+```C#
+	public interface Ipawn { string getType(); }
+	public class Scout : Ipawn { public string getType() => "I'm a scout."; }
+	public class Shocktrooper : Ipawn { public string getType() => "I'm a shocktrooper."; }
+
+	// Simple Factory Pattern
+	public class SimpleFactory
+    {
+		public static Ipawn trainningPawn(string type)
+        {
+			switch (type)
+            {
+				case "scout":
+					return new Scout();
+				case "shocktrooper":
+					return new Shocktrooper();
+				default:
+					return null;
+			}
+        }
+    }
+
+	//Factory Pattern
+	public interface IFactory { Ipawn trainningPawn(); }
+    public class ScoutFactory : IFactory{ public Ipawn trainningPawn() => new Scout(); }
+	public class ShocktrooperFactory : IFactory { public Ipawn trainningPawn() => new Shocktrooper(); }
+
+	//Abstract Factory Pattern
+	public class GalliaScout : Scout { }
+	public class GalliaShocktrooper : Shocktrooper { }
+	public class EmpireScout : Scout { }
+	public class EmpireShocktrooper : Shocktrooper { }
+	public interface IAbstractFactory
+    {
+		public Scout tranningScout();
+		public Shocktrooper trainningShocktrooper();
+    }
+    public class GalliaFactory : IAbstractFactory
+    {
+		public Shocktrooper trainningShocktrooper() => new GalliaShocktrooper();
+		public Scout tranningScout() => new GalliaScout();
+    }
+	public class EmpireFactory : IAbstractFactory
+	{
+		public Shocktrooper trainningShocktrooper() => new EmpireShocktrooper();
+		public Scout tranningScout() => new EmpireScout();
+	}
+```
+
