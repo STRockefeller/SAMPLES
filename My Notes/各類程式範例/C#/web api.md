@@ -121,6 +121,24 @@ namespace TodoApi
 - 將資料庫內容新增至 DI 容器。
 - 指定資料庫內容將會使用記憶體內部資料庫。
 
+#### 找不到`UseInMemoryDatabase`方法
+
+跟著範例做到這裡的時候跳錯誤查[MSDN](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.inmemorydbcontextoptionsextensions.useinmemorydatabase?view=efcore-3.1)得知:
+
+> - Namespace:
+>
+>   [Microsoft.EntityFrameworkCore](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore?view=efcore-3.1)
+>
+> - Assembly:
+>
+>   Microsoft.EntityFrameworkCore.InMemory.dll
+>
+> - Package:
+>
+>   Microsoft.EntityFrameworkCore.InMemory v3.1.0
+
+Namespace沒錯，那就找`Microsoft.EntityFrameworkCore.InMemory.dll`去NuGet找`Microsoft.EntityFrameworkCore.InMemory`還真的找到，安裝完後就OK啦
+
 ### Scaffold a controller
 
 於`Controllers`資料夾右鍵新增`Scaffold項目`，新增`使用 Entity Framework 執行動作的 API 控制器`
@@ -129,15 +147,201 @@ namespace TodoApi
 
 ![](https://i.imgur.com/nqLtUfu.png)
 
-接著報錯，跟說好得不一樣啊
 
-![](https://i.imgur.com/hXCkHrn.png)
 
-嘗試新增一個Constructor無引數多載，還是報錯，只是內容不太一樣
+生出來的東西長這樣
 
-![](https://i.imgur.com/zwRGCBe.png)
+TodoItemsController.cs
 
-用Terminal去跑，依然失敗
+```C#
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TodoApi.Models;
 
-![](https://i.imgur.com/tHDaC8l.png)
+namespace TodoApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TodoItemsController : ControllerBase
+    {
+        private readonly TodoContext _context;
 
+        public TodoItemsController(TodoContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/TodoItems
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        {
+            return await _context.TodoItems.ToListAsync();
+        }
+
+        // GET: api/TodoItems/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+        {
+            var todoItem = await _context.TodoItems.FindAsync(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            return todoItem;
+        }
+
+        // PUT: api/TodoItems/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+        {
+            if (id != todoItem.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(todoItem).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TodoItemExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/TodoItems
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+        }
+
+        // DELETE: api/TodoItems/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<TodoItem>> DeleteTodoItem(long id)
+        {
+            var todoItem = await _context.TodoItems.FindAsync(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.TodoItems.Remove(todoItem);
+            await _context.SaveChangesAsync();
+
+            return todoItem;
+        }
+
+        private bool TodoItemExists(long id)
+        {
+            return _context.TodoItems.Any(e => e.Id == id);
+        }
+    }
+}
+```
+
+### Examine the PostTodoItem create method
+
+在[上一步](Scaffold a controller)生成的程式碼裡面找到這段
+
+```C#
+        // POST: api/TodoItems
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+        }
+```
+
+將`return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);`
+
+改成`return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);`
+
+以下是MSDN原文
+
+> 上述程式碼是 HTTP POST 方法，如屬性所指示 [`[HttpPost\]`](https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.mvc.httppostattribute) 。 該方法會從 HTTP 要求本文取得待辦事項的值。
+>
+> 如需詳細資訊，請參閱[使用 Http[Verb\] 屬性的屬性路由](https://docs.microsoft.com/zh-tw/aspnet/core/mvc/controllers/routing?view=aspnetcore-3.1#attribute-routing-with-httpverb-attributes)。
+>
+> [CreatedAtAction](https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.mvc.controllerbase.createdataction) 方法：
+>
+> - 成功時會傳回 HTTP 201 狀態碼。 對於可在伺服器上建立新資源的 HTTP POST 方法，其標準回應是 HTTP 201。
+> - 將 [Location](https://developer.mozilla.org/docs/Web/HTTP/Headers/Location) 標頭新增至回應。 `Location`標頭會指定新建立之待辦事項的[URI](https://developer.mozilla.org/docs/Glossary/URI) 。 如需詳細資訊，請參閱 [10.2.2 201 Created](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) (已建立 10.2.2 201)。
+> - 參考 `GetTodoItem` 動作以建立 `Location` 標頭的 URI。 C# `nameof` 關鍵字是用來避免在 `CreatedAtAction` 呼叫中以硬式編碼方式寫入動作名稱。
+
+接著依教學指示安裝PostMan測試
+
+PostMan設定
+
+![](https://i.imgur.com/xDP6qQN.png)
+
+把Files-->Setting-->SSL certificate verification關掉(MSDN建議測試完後再次啟用)
+
+接著就可以開始測試了
+
+先把web api run起來接著PostMan依照以下流程跑
+
+> - Create a new request.
+> - Set the HTTP method to `POST`.
+> - Set the URI to `https://localhost:<port>/api/TodoItems`. For example, `https://localhost:5001/api/TodoItems`.
+> - Select the **Body** tab.
+> - Select the **raw** radio button.
+> - Set the type to **JSON (application/json)**.
+> - In the request body enter JSON for a to-do item:
+>
+> ```json
+> {
+>   "name":"walk dog",
+>   "isComplete":true
+> }
+> ```
+
+(new request 點+號就有了)
+
+然後就出問題啦
+
+![](https://i.imgur.com/AvyQdbH.png)
+
+錯誤內容
+
+> Error: write EPROTO 1999612088:error:100000f7:SSL routines:OPENSSL_internal:WRONG_VERSION_NUMBER:../../third_party/boringssl/src/ssl/tls_record.cc:242:
+
+SSL確定已經關掉了啊
+
+不知道是不是沒連到，把API關掉再試一次
+
+這次的錯誤是
+
+> Error: connect ECONNREFUSED 127.0.0.1:5002
+
+兩次不一樣，看來有其他原因
