@@ -345,3 +345,228 @@ SSL確定已經關掉了啊
 > Error: connect ECONNREFUSED 127.0.0.1:5002
 
 兩次不一樣，看來有其他原因
+
+嘗試透過IIS跑專案，仍是同樣的錯誤內容
+
+參考[Stackoverflow](https://stackoverflow.com/questions/62658941/error-write-eproto-34557064error100000f7ssl-routinesopenssl-internalwrong)把https改成http後成功了，結果如下(難道是因為我建立專案的時候順手把https的check取消了嗎)
+
+![](https://i.imgur.com/Xo3qTL8.png)
+
+#### Test the location header URI with Postman
+
+以下MSDN原文步驟
+
+> - Select the **Headers** tab in the **Response** pane.
+>
+> - Copy the **Location** header value:
+>
+>   ![Postman 主控台的 [標頭] 索引標籤](https://docs.microsoft.com/zh-tw/aspnet/core/tutorials/first-web-api/_static/3/create.png?view=aspnetcore-3.1)
+>
+> - Set the HTTP method to `GET`.
+>
+> - Set the URI to `https://localhost:<port>/api/TodoItems/1`. For example, `https://localhost:5001/api/TodoItems/1`.
+>
+> - Select **Send**.
+
+照做一樣把https改為http，結果如下
+
+![](https://i.imgur.com/sivqcHu.png)
+
+header
+
+![](https://i.imgur.com/xuBJsqg.png)
+
+
+
+### Examine the GET methods
+
+> These methods implement two GET endpoints:
+>
+> - `GET /api/TodoItems`
+> - `GET /api/TodoItems/{id}`
+>
+> Test the app by calling the two endpoints from a browser or Postman. For example:
+>
+> - `https://localhost:5001/api/TodoItems`
+> - `https://localhost:5001/api/TodoItems/1`
+>
+> A response similar to the following is produced by the call to `GetTodoItems`:
+>
+> ```json
+>[
+>   {
+>     "id": 1,
+>     "name": "Item1",
+>     "isComplete": false
+>   }
+> ]
+> ```
+> 
+#### Test Get with Postman
+>
+> - Create a new request.
+> - Set the HTTP method to **GET**.
+> - Set the request URI to `https://localhost:<port>/api/TodoItems`. For example, `https://localhost:5001/api/TodoItems`.
+> - Set **Two pane view** in Postman.
+> - Select **Send**.
+>
+> This app uses an in-memory database. If the app is stopped and started, the preceding GET request will not return any data. If no data is returned, [POST](https://docs.microsoft.com/zh-tw/aspnet/core/tutorials/first-web-api?view=aspnetcore-3.1&tabs=visual-studio#post) data to the app.
+
+這兩節就前面步驟的說明而已
+
+### Routing and URL paths
+
+修改自動生成Controller的Route
+
+```C#
+[Route("api/[controller]")]
+[ApiController]
+public class TodoItemsController : ControllerBase
+{
+    private readonly TodoContext _context;
+
+    public TodoItemsController(TodoContext context)
+    {
+        _context = context;
+    }
+```
+
+`[controller]`改成Controller名稱(不區分大小寫)
+
+後面解釋這段
+
+```C#
+// GET: api/TodoItems/5
+[HttpGet("{id}")]
+public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+{
+    var todoItem = await _context.TodoItems.FindAsync(id);
+
+    if (todoItem == null)
+    {
+        return NotFound();
+    }
+
+    return todoItem;
+}
+```
+
+當有個get請求`api/TodoItems/5`， `GetTodoItem`方法會將後方的`5`當作`id`來搜尋
+
+### The PutTodoItem method
+
+> Examine the `PutTodoItem` method:
+>
+> C#複製
+>
+> ```csharp
+> // PUT: api/TodoItems/5
+> [HttpPut("{id}")]
+> public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+> {
+>     if (id != todoItem.Id)
+>     {
+>         return BadRequest();
+>     }
+> 
+>     _context.Entry(todoItem).State = EntityState.Modified;
+> 
+>     try
+>     {
+>         await _context.SaveChangesAsync();
+>     }
+>     catch (DbUpdateConcurrencyException)
+>     {
+>         if (!TodoItemExists(id))
+>         {
+>             return NotFound();
+>         }
+>         else
+>         {
+>             throw;
+>         }
+>     }
+> 
+>     return NoContent();
+> }
+> ```
+>
+> `PutTodoItem` is similar to `PostTodoItem`, except it uses HTTP PUT. The response is [204 (No Content)](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html). According to the HTTP specification, a PUT request requires the client to send the entire updated entity, not just the changes. To support partial updates, use [HTTP PATCH](https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.mvc.httppatchattribute).
+>
+> If you get an error calling `PutTodoItem`, call `GET` to ensure there's an item in the database.
+
+試試看
+
+Put算是修改資料，所以要先有資料才能修改，跟Post格式相似
+
+比如我們重新啟動API
+
+用GET確認是不是空的
+
+`GET` `http://localhost:5002/api/TodoItems/`
+
+![](https://i.imgur.com/f5zZKtS.png)
+
+但我們需要先有資料所以先POST一點東西上去
+
+`POST` `http://localhost:5002/api/TodoItems/`
+
+body
+
+```json
+{
+    "id":2,
+    "name":"post id 2",
+    "isComplete":true
+}
+```
+
+![](https://i.imgur.com/1M3iydM.png)
+
+
+
+用GET確認看看
+
+`GET` `http://localhost:5002/api/TodoItems/2`
+
+![](https://i.imgur.com/10UxH2p.png)
+
+現在可以來試試PUT了
+
+`PUT` `http://localhost:5002/api/TodoItems/2`
+
+![](https://i.imgur.com/6SPhCm8.png)
+
+return 204 是正常的，我們的程式碼中，沒出問題最後就是 `return NoContent();`
+
+用GET檢查
+
+`GET` `http://localhost:5002/api/TodoItems/2`
+
+![](https://i.imgur.com/Q83I9jU.png)
+
+成功
+
+---
+
+現在來試試PUT資料到現在沒有內容的id:1
+
+`PUT` `http://localhost:5002/api/TodoItems/1`
+
+![](https://i.imgur.com/Cn9IWKK.png)
+
+回傳405失敗
+
+### DELETE
+
+試試刪除，沿用上例，試著把剛剛建立的ID2資料刪除
+
+`DELETE` `http://localhost:5002/api/TodoItems/2`
+
+![](https://i.imgur.com/0lpFYjL.png)
+
+確認
+
+`GET` `http://localhost:5002/api/TodoItems/`
+
+![](https://i.imgur.com/QWHWv4B.png)
