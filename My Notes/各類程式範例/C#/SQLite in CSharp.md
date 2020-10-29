@@ -15,7 +15,7 @@ SQLiteConnection.CreateFile(dataBasePath:string);
 可以搭配System.IO的File.Exists(fileName):bool來使用
 
 ```C#
-if(File.Exists(dataBasePath))
+if(!File.Exists(dataBasePath))
     SQLiteConnection.CreateFile(dataBasePath);
 ```
 

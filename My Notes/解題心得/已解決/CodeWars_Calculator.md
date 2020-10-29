@@ -455,7 +455,9 @@ Remember about the order of operations! Multiplications and divisions have a hig
     }
 ```
 
-通關(37ms)，感動，這題大概寫了兩小時吧
+通關(37ms)，感動，這題大概寫了兩小時吧，寫得頭昏腦脹我也懶得優化了。
+
+整體來說字串拆分、括弧檢測、計算優先順序等等都寫得算是順利，最難的部份當屬`-`符號的辨認
 
 ## Better Solutions
 
