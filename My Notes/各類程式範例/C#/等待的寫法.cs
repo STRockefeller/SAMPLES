@@ -9,3 +9,10 @@ SpinWait.SpinUntil(() => { return false; }, 5000);
 
 //另一種寫法(較不推薦)
 Thread.Sleep(5000);
+
+//---
+//使用Task
+//同步
+Task.Delay(5000).Wait();
+//非同步
+await Task.Delay(5000);
