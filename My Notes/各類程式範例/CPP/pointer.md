@@ -10,7 +10,7 @@
 
 如果想知道變數的位址為何，可以使用 `&` 取址運算子（Address-of operator），例如：
 
-```
+```c++
 #include <iostream> 
 using namespace std; 
 
@@ -37,13 +37,13 @@ n 位址：0x61febc
 
 直接存取變數會對分配到的空間作存取，指標（Pointer）是一種變數，指標可儲存特定的記憶體位址，要宣告指標，使用以下的語法：
 
-```
+```c++
 type *ptr;
 ```
 
 `ptr` 可儲存位址，而 `type` 為該位址儲存值的型態，實際宣告的方式如下：
 
-```
+```c++
 int *n;
 float *s;
 char *c;
@@ -53,7 +53,7 @@ char *c;
 
 可以使用 `&` 運算子取得變數位址並指定給指標，例如：
 
-```
+```c++
 #include <iostream> 
 using namespace std; 
 
@@ -81,7 +81,7 @@ p 儲存的位址：0x61feb8
 
 可以使用提取 （Dereference）運算子 `*` 來提取指標儲存位址處的物件。例如：
 
-```
+```c++
 #include <iostream> 
 using namespace std; 
 
@@ -105,7 +105,7 @@ int main() {
 
 `*p` 提取了變數 `n`，將值指定給 `*p` 時，就是指定給變數 `n`，例如：
 
-```
+```c++
 #include <iostream> 
 using namespace std; 
 
@@ -138,14 +138,14 @@ n = 20
 
 如果宣告指標但不指定初值，指標儲存的位址是未知的，存取未知位址的記憶體內容是危險的，例如：
 
-```
+```c++
 int *p;
 *p = 10;
 ```
 
 這會造成不可預知的結果，最好為指標設定初值，如果指標一開始不儲存任何位址，可設定初值為 0，或者是使用 `nullptr`，例如：
 
-```
+```c++
 int *p = nullptr;
 ```
 
@@ -153,7 +153,7 @@ int *p = nullptr;
 
 在指標宣告時，可以靠在變數旁邊，也可以靠在型態關鍵字旁邊，或者是置中，例如：
 
-```
+```c++
 int *p1;
 int* p2;
 int * p3;
@@ -161,19 +161,19 @@ int * p3;
 
 這三個宣告方式都是可允許的，C++ 開發者傾向用第一個，因為可以避免以下的錯誤：
 
-```
+```c++
 int* p1, p2;
 ```
 
 這樣的宣告方式，初學者可能以為 `p2` 也是指標，但事實上並不是，以下的宣告 `p1` 與 `p2` 才都是指標：
 
-```
+```c++
 int *p1, *p2;
 ```
 
 有時只希望儲存位址而不關心型態，可以使用 `void*` 來宣告指標，例如：
 
-```
+```c++
 void* p;
 ```
 
@@ -181,7 +181,7 @@ void* p;
 
 由於 `void*` 型態的指標沒有任何型態資訊，只用來持有位址，不可以使用 `*` 運算子對 `void*` 型態指標提取值，編譯器也不會允許將 `void*` 指標直接指定給具有型態資訊的指標，必須使用 `reinterpret_cast` 明確告知編譯器，這個動作是你允許的，例如：
 
-```
+```c++
 #include <iostream> 
 using namespace std; 
 
@@ -200,27 +200,27 @@ int main() {
 
 被 `const` 宣告的變數指定值後，就不能再改變變數值，也無法對該變數取址：
 
-```
+```c++
 const int n = 10;
 int *p = &n; // error,  invalid conversion from `const int*' to `int*'
 ```
 
 用 `const` 宣告的變數，必須使用對應的 `const` 型態指標才可以：
 
-```
+```c++
 const int n = 10;
 const int *p = &n;
 ```
 
 同樣地，也就不能如下試圖改變位址處的資料：
 
-```
+```c++
 *p = 20; // error: assignment of read-only location '* p'
 ```
 
 被 `const` 宣告的變數指定值後，就不能再改變變數值，也無法對該變數取址，編譯會不通過，不過必要時，可以用 `const_cast` 叫編譯器住嘴：
 
-```
+```c++
 const int n = 10;
 int *p = const_cast<int*>(&n); 
 ```
@@ -229,7 +229,7 @@ int *p = const_cast<int*>(&n);
 
 要留意的是，`const int *p` 宣告的 `p` 並不是常數，可以儲存不同的位址。例如：
 
-```
+```c++
 #include <iostream> 
 using namespace std; 
 
@@ -256,7 +256,7 @@ int main() {
 
 如果想令指標儲存的值無法變動，必須建立指標常數，先來看看來源變數沒有 `const` 的情況：
 
-```
+```c++
 int n = 10;
 int m = 20;
 
@@ -266,7 +266,7 @@ p = &m;  //  error: assignment of read-only variable 'p'
 
 如果 `n`、`m` 被 `const` 修飾，那麼就必須如下建立指標常數：
 
-```
+```c++
 const int n = 10;
 const int m = 20;
 
