@@ -46,3 +46,281 @@ void main() {
 
 ## Data Types
 
+型別分為以下幾種
+
+- Numbers
+- Strings
+- Booleans
+- Lists
+- Maps
+
+### Numbers
+
+分成整數的`int`和浮點數的`double`
+
+### strings
+
+`String `(S大寫)用於表示UTF-16編碼的字串，字串內容可用`''`或`""`包起來。
+
+另外可以用`Runes`表示UTF-32編碼，[參考資料](https://api.dart.dev/stable/2.10.5/dart-core/Runes-class.html)。
+
+### Booleans
+
+關鍵字`bool`，值分為`true`和`false`。
+
+### Lists
+
+表有序的物件集合
+
+```dart
+void main() { 
+   var lst = new List(3); //3代表List的長度，new List()代表長度為0
+   lst[0] = 12; 
+   lst[1] = 13; 
+   lst[2] = 11; 
+   print(lst); 
+}
+```
+
+```dart
+void main() { 
+   var num_list = [1,2,3]; //用[]來設定初始內容
+   print(num_list); 
+}
+```
+
+```dart
+void main() { 
+   var lst = new List(); 
+   lst.add(12); 
+   lst.add(13); 
+   print(lst); 
+} 
+```
+
+
+
+### Maps
+
+key - value 配對的集合，類似於Dictionary或Hash Table
+
+```dart
+void main() { 
+   var details = {'Usrname':'tom','Password':'pass@123'}; 
+   print(details); 
+}
+```
+
+> ```
+> {Usrname: tom, Password: pass@123}
+> ```
+
+```Dart
+void main() { 
+   var details = {'Usrname':'tom','Password':'pass@123'}; 
+   details['Uid'] = 'U1oo1'; 
+   print(details); 
+} 
+```
+
+> ```
+> {Usrname: tom, Password: pass@123, Uid: U1oo1}
+> ```
+
+```dart
+void main() { 
+   var details = new Map(); 
+   details['Usrname'] = 'admin'; 
+   details['Password'] = 'admin@123'; 
+   print(details); 
+} 
+```
+
+> ```
+> {Usrname: admin, Password: admin@123}
+> ```
+
+### Dynamic Types
+
+關鍵字`dynamic`，就我的理解相當於宣告一個弱型別的變數。
+
+試寫了一下
+
+```dart
+void main() {
+  dynamic d = 123;
+  print(d);
+  d = "asd";
+  print(d);
+}
+```
+
+> 123 asd
+
+
+
+## Operators
+
+### Arithmetic Operators
+
+基本和C家族的一樣
+
+`+` `-` `*` `/` `%` `++` `--`
+
+`~/`代表除法取整數商
+
+### Equality and Relational Operators
+
+基本和C家族的一樣
+
+`>` `>=` `<` `<=` `=` `==` `!=`
+
+### Type test Operators
+
+型別判斷用回傳Boolean 關鍵字 `is` `is!`
+
+```dart
+void main() {
+  int a = 123;
+  dynamic b =456;
+  print(a is int);
+  print(b is! int);
+}
+```
+
+> true false
+
+### Bitwise Operators
+
+基本上也是類似C家族
+
+| Logic       | Operator |
+| ----------- | -------- |
+| And         | a&b      |
+| Or          | a\|b     |
+| Xor         | a^b      |
+| Not         | ~a       |
+| Left Shift  | a<<b     |
+| Right Shift | a>>b     |
+
+
+
+### Assignment Operators
+
+同樣類似C家族，很好理解。
+
+這個部分直接貼 [範例](https://www.tutorialspoint.com/dart_programming/dart_programming_assignment_operators.htm)
+
+
+
+The following example shows how you can use the assignment operators in Dart −
+
+[Live Demo](http://tpcg.io/dHVftW)
+
+```
+void main() { 
+   var a = 12; 
+   var b = 3; 
+     
+   a+=b; 
+   print("a+=b : ${a}"); 
+     
+   a = 12; b = 13; 
+   a-=b; 
+   print("a-=b : ${a}"); 
+     
+   a = 12; b = 13; 
+   a*=b; 
+   print("a*=b' : ${a}"); 
+     
+   a = 12; b = 13; 
+   a/=b;
+   print("a/=b : ${a}"); 
+     
+   a = 12; b = 13; 
+   a%=b; 
+   print("a%=b : ${a}"); 
+}    
+```
+
+It will produce the following **output** −
+
+```
+a+=b : 15                         
+a-=b : -1                             
+a*=b' : 156                                    
+a/=b :0.9230769230769231                       
+a%=b : 12
+```
+
+
+
+### Logical Operators
+
+| Logic | Operators |
+| ----- | --------- |
+| And   | a&&b      |
+| Or    | a\|\|b    |
+| Not   | !a        |
+
+
+
+### Conditional Expressions
+
+* Condition?expr1:expr2
+
+  跟C家族一樣的用法BJ4
+
+* expr1??expr2
+
+  If **expr1** is non-null, returns its value; otherwise, evaluates and returns the value of **expr2**
+
+```dart
+void main() { 
+   var a = null; 
+   var b = 12; 
+   var res = a ?? b; 
+   print(res); 
+}
+```
+
+> 12
+
+
+
+## Loops
+
+一樣是`for` `while` `do while`
+
+用法和C一模一樣，沒什麼值得一提的
+
+
+
+## Decision Making
+
+`if` `else if` `else `用法和C一模一樣，沒什麼值得一提的
+
+值得一提的是`switch`裡面`case`的內容用`{}`包起來，如下。
+
+```dart
+void main() { 
+   var grade = "A"; 
+   switch(grade) { 
+      case "A": {  print("Excellent"); } 
+      break; 
+     
+      case "B": {  print("Good"); } 
+      break; 
+     
+      case "C": {  print("Fair"); } 
+      break; 
+     
+      case "D": {  print("Poor"); } 
+      break; 
+     
+      default: { print("Invalid choice"); } 
+      break; 
+   } 
+}  
+```
+
