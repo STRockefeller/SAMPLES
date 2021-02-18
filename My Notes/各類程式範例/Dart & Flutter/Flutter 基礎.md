@@ -303,29 +303,69 @@ VSC安裝完flutter之後有勾起來。
 >
 > • No issues found!
 
+## Flutter Commands
 
+這編列幾個常用指令，以下節錄自 [Flutter開發說明-Flutter開發環境架設](https://medium.com/mp-mobile-application-lab/flutter%E9%96%8B%E7%99%BC%E8%AA%AA%E6%98%8E-flutter%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83%E6%9E%B6%E8%A8%AD-fb1c037759cd)
 
-## Hello world
+查詢版本：
 
-### 新專案
+```
+$ flutter --version
+```
 
+更新Flutter：
 
+```
+$ flutter upgrade
+```
 
-### 執行
+查詢分支：
 
-#### android studio
+```
+$ flutter channel
+```
 
-選擇SDK Device (也可以選chrome) 然後main.dart 直接執行
+如果需要時可以變更channel、切換分支：
 
-#### VSC
+```
+$ flutter channel dev
+```
 
-Start Debugging 的 Combo box 下拉 選擇 Dart & Flutter 後方選擇Flutter(還有一個Flutter test不知道能不能用) 執行
+列出Flutter版本：
 
-### running gradle task 'assembledebug' 
+```
+$ flutter version
+```
 
-目前不論是android studio或是VSC在執行時都卡在這裡。
+切换到特定版本的 Flutter：
 
-然後原因是，**等地不夠久**，VSC等約莫二十分鐘後就成功跑出畫面來了，並且執行第二次後就快很多了
+```
+$ flutter version x.x.x
+```
 
-接著再拿android studio跑一次，也順利顯示出畫面了
+### 建立專案
+
+建立專案時指定平台語言，iOS平台選擇Swift、Android平台選擇Kotlin。
+
+```
+$ flutter create --androidx --org your_organization -i swift -a kotlin myapp$ cd myapp
+$ flutter run
+```
+
+### 語法說明：
+
+- your_organization：使用反域名命名規範，全部使用小寫字母，例如：com.microprogram。
+- myapp：App名稱使用小寫字母。
+
+取得package：
+
+```
+$ flutter packages get
+```
+
+更新package：
+
+```
+$ flutter packages upgrade
+```
 
