@@ -519,7 +519,7 @@ class Example
 
   如上寫法才可以
 
-  在Debug模式下可以看到taskStr.Result和task.Result都是"data"
+  在Debug模式下可以看到`taskStr.Result`和`task.Result`都是"data"
 
   但是在IDE中task卻無法找到Result這個屬性
 
@@ -555,4 +555,34 @@ class Example
   ```
 
   
+
+> 20210222補充
+
+剛學了Dart的非同步，對於`await`和`async`有了不太一樣的看法，特此補充
+
+首先將C#的`Task<T>`與Dart的`Future<T>`類比，相當於得到一個未來(或者說不一定已經得到結果的物件)
+
+
+
+`async`關鍵字會把方法中的回傳值`T`包裝成`Task<T>`，如以下兩個方法最後都是回傳`Task<string>`物件
+
+```c#
+Task<string> helloAsync()=>  new Task<string>(()=>"Hello");// 這裡回傳一個Task<string>物件 
+```
+
+```C#
+async Task<string> helloAsync()=> "Hello";// 這裡回傳一個string 
+```
+
+
+
+`await`關鍵字會把非同步的內容變為同步(作法就是等它執行完)，使用上方的例子
+
+```C#
+var hello = helloAsync(); // hello 是Task<string>物件，可以立刻取得
+```
+
+```C#
+var hello = await helloAsync(); // hello 是string，會等待helloAsync()執行完畢
+```
 
