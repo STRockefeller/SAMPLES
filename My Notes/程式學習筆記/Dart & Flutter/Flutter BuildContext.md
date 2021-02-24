@@ -118,7 +118,7 @@ class SecondPage extends StatelessWidget {
 
     但總之，我們可以透過這個方法取得`NavigatorState`物件
 
-  * 通過這個`NavigatorState`物件，我們就可以執行`put()`方法
+  * 通過這個`NavigatorState`物件，我們就可以執行`push()`方法
 
     > Push the given route onto the navigator.
 
