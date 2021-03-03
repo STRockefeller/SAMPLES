@@ -130,6 +130,26 @@ HtmlWeb webClient = new HtmlWeb();
 
 
 
+##### 編碼問題
+
+20210303補充，在爬goodinfo的時候發現的狀況
+
+測試程式回傳`System.InvalidOperationException: 'Sequence contains no elements'`
+
+逐步執行檢查發現爬到的html中innerText是亂碼
+
+![](https://i.imgur.com/VeiMGtr.png)
+
+這個問題可以透過修改`HtmlWeb`物件的Encoding來解決，我改成UTF-8就能正確顯示內容了
+
+```C#
+webClient.OverrideEncoding = Encoding.UTF8;
+```
+
+結果如下www
+
+![](https://i.imgur.com/XIP6TbV.png)
+
 #### 獲取資料
 
 成功得到HtmlAgilityPack.HtmlDocument物件後，接著就可以來找尋所要的資料了。

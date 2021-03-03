@@ -228,6 +228,8 @@ Unhandled exception. Microsoft.EntityFrameworkCore.DbUpdateException: An error o
 
 以下錯誤僅發生在我的筆電上，後使用桌機照MSDN流程跑都未發生此問題，一切順利。
 
+#### 失敗的做法
+
 在建立DB的階段
 
 執行後會顯示`The specified deps.json [C:\Users\admin\source\repos\EntityFrameworkTest\EntityFrameworkTest\EntityFrameworkTest.deps.json] does not exist`，不確定是否正常。
@@ -260,3 +262,55 @@ Unhandled exception. Microsoft.EntityFrameworkCore.DbUpdateException: An error o
 執行階段修改完專案黨後，依然跳no such table
 
 ---
+
+#### 成功的作法
+
+20210303再次嘗試EFcore(在筆電上)，不意外的同樣遇到這樣的問題，這次有成功解決，作法如下
+
+這次主要參考[Github上的issue回報](https://github.com/dotnet/efcore/issues/16386)
+
+> ### Error solution
+>
+> The error appears when programming in Microsoft.AspNetCore.MVC with NET 5.0, when trying to create a Migration and a DataBase.
+> By typing in the package manager console:
+>
+> **PM> Add-Migration InitialCreate (or Update-Database**)
+> Build started.
+> Build succeeded.
+> ***The specified deps.json [C: \ VSProjects \ RazorPagesMovie \ RazorPagesMovie.deps.json] does not exis***t, and the migration is not created and then not all the tables in the DataBase are created.
+>
+> **Solution:**
+>
+> 1. In appsettings.json, in "DefaultConnection" remove the final part "MultipleActiveResultSets = true"
+> 2. In the package manager console (PowerShell), and having installed "Dotnet":
+>    a) dotnet tool uninstall --global dotnet-ef (To Remove it only if it exists)
+>    b) dotnet tool install --global dotnet-ef (To Install it if it does not exist)
+>    c) dotnet ef (To see that it is installed correctly)
+>    d) dotnet ef migrations add InitialCreate
+>    e) dotnet ef database update
+>
+> In **View -> SQL Object Explorer,** you will find the DataBase with its tables.
+
+```
+PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet tool uninstall --global dotnet-ef
+PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet tool install --global dotnet-ef
+已成功安裝工具 'dotnet-ef' ('5.0.3' 版)。
+PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet ef migrations add InitialCreate
+No project was found. Change the current working directory or use the --project option.
+Build started...
+Done. To undo this action, use 'ef migrations remove'
+PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet ef database update
+No project was found. Change the current working directory or use the --project option.
+PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet ef database update --project StockCrawlerTW_ByRockefeller
+Build started...
+Build succeeded.
+Applying migration '20210303050711_InitialCreate'.
+Done.
+```
+
+結果意外地順利
+
+跑完目錄如下
+
+![](https://i.imgur.com/JvZMY7m.png)
+
