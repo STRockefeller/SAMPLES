@@ -155,3 +155,91 @@ url格式
 
 `https://www.twse.com.tw/zh/stockSearch/showStock?stkNo=2330`
 
+目前粗略測試是可以爬到的，但我不會看證券交易所的資料...
+
+今天先到這裡，下次繼續研究。
+
+---
+
+## 20210304
+
+### Crawler-鉅亨
+
+證券交易所不會看，這次試試鉅亨
+
+url格式
+
+```
+https://invest.cnyes.com/twstock/TWS/2330
+```
+
+
+
+這次有爬到內容，終於可以繼續下去了
+
+來檢視一下目標
+
+![](https://i.imgur.com/iIC3gtb.png)
+
+
+
+看來開盤前的資訊比較少，本來還以為開盤前會顯示前一天的資料，看來之後可能需要新增爬取歷史資料的方法
+
+更新一下股票資訊
+
+![](https://i.imgur.com/5gbbegh.png)
+
+爬出來長這樣
+
+![](https://i.imgur.com/6oaXxm8.png)
+
+
+
+更新一下查詢方法
+
+![](https://i.imgur.com/Uc1HD5W.png)
+
+### 更改架構
+
+希望單一股票不只儲存最新爬到的資訊而是可以將過去爬的也保留下來
+
+* 把`id`作為單純標示使用
+* 新增`codeName`作為股票代號
+
+
+
+#### Debug評估逾時問題
+
+![](https://i.imgur.com/kHtZtvn.png)
+
+然後我的`stock`物件會被認定為null導致執行失敗
+
+```
+The data is NULL at ordinal 10. This method can't be called on NULL values. Check using IsDBNull before calling.
+```
+
+猜測或許和資料庫格式變動有關
+
+![](https://i.imgur.com/mmAeOVg.png)
+
+明顯發生資料位移的情況
+
+猜測沒錯，把資料先手動刪除後就正常了
+
+
+
+---
+
+現在爬出來是這個樣子
+
+![](https://i.imgur.com/yint2uW.png)
+
+排序之後像這樣
+
+![](https://i.imgur.com/IccaUky.png)
+
+**理想狀態**
+
+
+
+好，OK，這個專案先到此為止，之後要怎麼運用這個DLL再說。
