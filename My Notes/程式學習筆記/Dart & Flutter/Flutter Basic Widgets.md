@@ -273,7 +273,7 @@ child: Container(
 
 The transformation matrix to apply before painting the container.
 
-參數要求型別是`Mateix4`
+參數要求型別是`Matrix4`
 
 [Reference:FlutterApi:Matrix4](https://api.flutter.dev/flutter/vector_math_64/Matrix4-class.html)
 
