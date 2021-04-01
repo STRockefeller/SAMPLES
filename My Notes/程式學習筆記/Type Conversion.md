@@ -272,6 +272,17 @@ var str: string = "1234";
 var i: number = +str;
 ```
 
+---
+
+dart
+
+```dart
+String str = "1234";
+int i = int.parse(str);
+```
+
+
+
 ### To char
 
 #### From ASCII

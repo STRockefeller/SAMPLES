@@ -50,3 +50,46 @@ if(document != null && this.mounted)
 ```
 
 在測試就沒再發生問題了
+
+
+
+
+
+## invalid depfile
+
+參考資料:[StackOverFlow](https://stackoverflow.com/questions/60872753/invalid-depfile-flutter) [github issue](https://github.com/flutter/flutter/issues/21053)
+
+我的情況是原本可以正常跑的專案，隔天就無法Debug看到的個Exception
+
+Flutter doctor 也沒有問題
+
+後來是跑 flutter clean後再次跑 flutter pub get 和 flutter pub upgrade 後發現原本用的 package 中有一個方法的簽章在新版本有所不同
+
+另外還有把文件中的`import 'dart:html';`拿掉才能夠正常運作
+
+![](https://i.imgur.com/4TbZCd9.png)
+
+![](https://i.imgur.com/LNrmnwG.png)
+
+
+
+## system ui isn't responding
+
+參考資料:[StackOverFlow](https://stackoverflow.com/questions/63371056/the-system-ui-isnt-responding-in-android-emulator-flutter)
+
+這個是ADV上的模擬器跳出的提醒視窗
+
+解法一
+
+> 1.Open AVD Manager. [![enter image description here](https://i.stack.imgur.com/mQP7q.jpg)](https://i.stack.imgur.com/mQP7q.jpg) 2.Click to edit button for your device. [![enter image description here](https://i.stack.imgur.com/bARFT.jpg)](https://i.stack.imgur.com/bARFT.jpg) 3.Select Hardware in the Graphics drop down menu. [![enter image description here](https://i.stack.imgur.com/y4jYv.jpg)](https://i.stack.imgur.com/y4jYv.jpg)
+
+對我Emulator無效，依然有同樣的問題
+
+---
+
+解法二
+
+> Open Android Studio. Navigate to Configure > AVD Manager. Under Actions > dropdown triangle on the right > Cold Boot Now:
+
+有效
+

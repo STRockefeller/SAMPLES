@@ -34,7 +34,7 @@ i created a full application that shows how to parse HTML and extract data from 
 
 1.import this 3 libraries for html parsing
 
-```
+```dart
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
@@ -42,7 +42,7 @@ import 'package:html/dom.dart' as dom;
 
 2.get the data from the page you want
 
-```
+```dart
 Future<List<String>> getData() async { 
   http.Response response = await http.get('website');
 }
@@ -50,13 +50,13 @@ Future<List<String>> getData() async {
 
 3.extract the data from the website
 
-```
+```dart
 dom.Document document = parser.parse(response.body);
 ```
 
 \4. depend on your need let's say you want to get all element with the article tag
 
-```
+```dart
 document.getElementsByTagName('article')
 ```
 
@@ -266,3 +266,217 @@ if(document != null && this.mounted)
 改一改就OK了
 
 ![](https://i.imgur.com/GuQbFi2.png)
+
+
+
+## 20210324
+
+### HandshakeException
+
+ADV打開放著一段時間就跳例外了
+
+![](https://i.imgur.com/Bn7Dt2o.png)
+
+[github](https://github.com/flutter/flutter/issues/23045)上有相關討論，簡單的說就是跑`flutter doctor --android-licenses`
+
+跑完如下，我忘記先跑一次`flutter doctor`看有沒有issue
+
+![](https://i.imgur.com/hXx0BX5.png)
+
+### Drawer
+
+稍微修改一下Drawer，改成只有下半部為scrollable
+
+```dart
+new Drawer(
+        child: Center(
+          child: new Column(children: [
+            myText('Novel Sort',Colors.orangeAccent,40),
+            new Container(
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.only(bottom: 30),
+              child: new  SingleChildScrollView
+              (
+                scrollDirection: Axis.vertical,
+                child:Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: elevatedButtons,
+                ), 
+              )
+            ),
+            
+          ],)
+        ),
+      );
+```
+
+發現改完之後又再次出現over flow的情況
+
+![](https://i.imgur.com/E5zwIAt.png)
+
+嘗試看看其他Widget
+
+
+
+改用ListBody，效果如下，但依然有超出範圍的情況
+
+![](https://i.imgur.com/Pnv6rnW.png)
+
+
+
+在[StackOverFlow](https://stackoverflow.com/questions/56318969/bottom-overflowed-using-singlechildscrollview)看到似乎原因出在我把Scrollable Widget放在Column底下，
+
+將Column改為Stack試試
+
+![](https://i.imgur.com/e48ecaJ.png)
+
+現在已經沒有超出範圍了，但是我想要固定的文字沒有被顯示出來(其實有只是被蓋掉了)
+
+
+
+## 20210326
+
+### invalid depfile
+
+昨天還可以正常開的專案今天執行就跳這個Excetion，
+
+flutter doctor 也沒有問題
+
+![](https://i.imgur.com/hvJfBCb.png)
+
+後來在
+
+1. flutter clean
+2. flutter pub get
+3. flutter pub upgrade
+
+後發現我的`http.get(url)`都出現了橙色波浪線
+
+查看後發現`http.get()`的方法簽章變為
+
+```dart
+Future<Response> get(Uri url, {Map<String, String> headers})
+```
+
+去[pubdev](https://pub.dev/packages/http)看到它的changelog中有一條
+
+> - **Breaking** All APIs which previously allowed a `String` or `Uri` to be passed now require a `Uri`.
+
+所以原因就是出在以前能用String型別參數現在已經不能使用了
+
+
+
+https://github.com/flutter/flutter/issues/53005
+
+結果還是一樣的問題，最後是把文件中的`import 'dart:html';`拿掉才能夠正常運作
+
+![](https://i.imgur.com/4TbZCd9.png)
+
+![](https://i.imgur.com/LNrmnwG.png)
+
+
+
+## 20210329
+
+### Crawler 實作
+
+```dart
+class CZBookNovelListCrawler extends INovelListCrawler
+{
+  @override
+  Future<List<Novel>> StartCrawlerAsync(String url) async
+  {
+    DateTime getDate(dom.Element e)
+    {
+      List<String> ls = e.text.split("-");
+      return new DateTime(int.parse(ls[0]),int.parse(ls[1]),int.parse(ls[2]));
+    }
+    //var urls = url.split('/');
+    //http.Response response = await http.get(Uri.https(urls[2], urls[3]+'/'+urls[4]));
+    http.Response response = await http.get(Uri.https(url,''));
+    dom.Document doc = parser.parse(response.body);
+    List<Novel> novels = new List<Novel>();
+    List<dom.Element> novelElements = doc.getElementsByClassName('novel-item-wrapper');
+    novelElements.forEach((element) {
+      novels.add(new Novel(element.getElementsByClassName('novel-item-title').first.text,
+      element.getElementsByClassName('novel-item-author').first.getElementsByTagName('a').first.text,
+      element.getElementsByClassName('novel-item-date').map((e)=>getDate(e)).first,
+      new ChapterList(element.getElementsByClassName('novel-item-title').first.text,
+      element.getElementsByClassName('novel-item-cover-wrapper').first.getElementsByTagName('a').first.attributes['href']))
+      );
+    });
+    return novels;
+  }
+  
+}
+```
+
+目前未完成，新的http.get()方法對不熟uri結構的我來說相當不友善。研究中。
+
+
+
+## 20210330
+
+首先提一下昨天的Crawler實作，基本上沒有寫錯，但`Uri.https()`的`unencodePath`是以`'/'`開頭的，加上斜線後就能用了
+
+
+
+### 非同步以及Statefull Widget 設計
+
+目前這個分類書單的頁面依然採用`StatelessWidget`，不過其中的內容需要等待非同步的Crawler完成爬蟲，因此我將body的部分設計成`StatefulWidget`，大致如下
+
+```dart
+class CZBooksBookListPageBody extends StatefulWidget
+{
+  String url;
+  CZBooksBookListPageBody(url){this.url=url;}
+  @override
+  State<StatefulWidget> createState() => new _CZBooksBookListPageBody(url);
+}
+class _CZBooksBookListPageBody extends State<CZBooksBookListPageBody>
+{
+  String url;
+  List<Novel> novels;
+  CZBookNovelListCrawler crawler;
+  _CZBooksBookListPageBody(String url){this.url=url;}
+  Future getDataAsync() async { 
+    crawler = new CZBookNovelListCrawler();
+    setState(() async{
+      novels = await crawler.StartCrawlerAsync(url);
+      print('set state');
+    });
+  } 
+  ListView getBody()
+  {
+    sleep(Duration(seconds:1));
+    if(novels?.isEmpty ?? true){return new ListView();}
+    List<Widget> widgets;
+    novels.forEach((novel) {
+      widgets.add (
+        new Container(
+        padding: EdgeInsets.all(5),
+        child: new Column(children: [
+          MyControls.commonText('Name: '+novel.name),
+          MyControls.commonText('Author: '+novel.author),
+          MyControls.commonText('Last Update: '+novel.lastUpdateDate.toString()),
+          new ElevatedButton(onPressed: ()=>{}, child: MyControls.commonText('Go To Chapter List'))
+        ],)
+        )
+      );
+     });
+     return new ListView(children: widgets);
+  }
+  @override
+  Widget build(BuildContext context) {
+    getDataAsync();
+    print('get body');
+    return getBody();
+  }
+}
+```
+
+不過目前非同步的動作依然沒有處理好，下圖是我在Debug模式下觀察到的程式動作順序
+
+![](https://i.imgur.com/LCPxk5I.png)
+
+我期望它在set state 後再次 build 然後刷新畫面，然而並沒有。
