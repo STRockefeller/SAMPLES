@@ -480,3 +480,70 @@ class _CZBooksBookListPageBody extends State<CZBooksBookListPageBody>
 ![](https://i.imgur.com/LCPxk5I.png)
 
 我期望它在set state 後再次 build 然後刷新畫面，然而並沒有。
+
+
+
+## 20210406
+
+### 非同步時序問題
+
+繼續處理前次遇到的狀況
+
+這次嘗試加入callback (參考[STACKOVERFLOW](https://stackoverflow.com/questions/54846280/calling-setstate-during-build-without-user-interaction/54847918))
+
+`WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));`
+
+結果就成功了(但我還是不清楚原理，等搞懂後再寫一篇筆記說明好了)
+
+![](https://i.imgur.com/wLnrd23.png)
+
+DEBUG顯示的時序部分如下
+
+```
+I/flutter (16540): Enter Scrawler Method
+I/flutter (16540): get body ?
+I/flutter (16540): get body fail
+I/flutter (16540): Enter Scrawler Method
+I/flutter (16540): get body ?
+I/flutter (16540): get body fail
+I/flutter (16540): Enter Scrawler Method
+I/flutter (16540): get body ?
+I/flutter (16540): get body fail
+I/flutter (16540): Enter Scrawler Method
+I/flutter (16540): get body ?
+I/flutter (16540): get body fail
+I/flutter (16540): Enter Scrawler Method
+I/flutter (16540): get body ?
+I/flutter (16540): get body fail
+I/flutter (16540): Instance of 'Response'
+I/flutter (16540): return novels
+I/flutter (16540): set state
+I/flutter (16540): Enter Scrawler Method
+I/flutter (16540): get body ?
+I/flutter (16540): get body success
+I/flutter (16540): Instance of 'Response'
+I/flutter (16540): return novels
+I/flutter (16540): set state
+I/flutter (16540): Instance of 'Response'
+I/flutter (16540): return novels
+I/flutter (16540): set state
+I/flutter (16540): Instance of 'Response'
+I/flutter (16540): return novels
+I/flutter (16540): set state
+I/flutter (16540): Instance of 'Response'
+I/flutter (16540): return novels
+I/flutter (16540): set state
+```
+
+前半部和我預想的滿接近的，就是在另一個TASK完成前不斷獲取資料，後面得到結果後為甚麼還會重複去取得實例就有點怪了，不過目前是可以使用的，這個部分就等之後再做優化。
+
+
+
+### 排版整理
+
+主要兩個部分
+
+* 書名爬到的內容有太多空白的部分了，使用`trim()`方法去掉([API參考](https://api.dart.dev/stable/2.12.0/dart-core/String/trim.html))，基本和C#的用法類似但不能選擇要過濾掉的內容
+* `Column`內部`children`太擁擠，想將其隔開，由於內部我沒有使用`Container`所以沒有`padding`或`margin`這些屬性可以設定，查了一下別人的作法，發現可以直接透過插入`SizedBox(height: 10)`將其隔開，確實十分方便。
+
+![](https://i.imgur.com/TOPp6P1.png)

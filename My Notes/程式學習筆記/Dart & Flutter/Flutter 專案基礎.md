@@ -24,6 +24,22 @@ Create a new flutter project --> Flutter application -->然後一直NEXT就可�
 
 可以透過AVD Manager打開Emulator後執行程式。
 
+
+
+##### 2021/04/06 補充VSC設定方式
+
+1. 先安裝plugin `Android iOS Emulator
+
+   ![](https://i.imgur.com/Maw5Udk.png)
+
+2. 到Settings設定SDK路徑(可以從SDK Mannager查)
+
+   ![](https://i.imgur.com/b76V4Ul.png)
+
+   ![](https://i.imgur.com/ol4ugGi.png)
+
+3. 設定完成後於VSC下`ctrl`+`shift`+`p`搜尋emulator執行`Flutter: Launch Emulator`即可
+
 ### 執行
 
 #### Android Studio
