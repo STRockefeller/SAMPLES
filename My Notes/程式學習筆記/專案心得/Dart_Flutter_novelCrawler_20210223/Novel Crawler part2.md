@@ -547,3 +547,65 @@ I/flutter (16540): set state
 * `Column`內部`children`太擁擠，想將其隔開，由於內部我沒有使用`Container`所以沒有`padding`或`margin`這些屬性可以設定，查了一下別人的作法，發現可以直接透過插入`SizedBox(height: 10)`將其隔開，確實十分方便。
 
 ![](https://i.imgur.com/TOPp6P1.png)
+
+
+
+
+
+## 20200415
+
+
+
+### Chapter List Page
+
+一開始本來想以先前桌面程式的做法直接套到APP上，但後來想想覺得不太現實，如果說在這個畫面把整本書幾百上千章的內容全部爬完，那實在是對使用者耐心的一大考驗。(而且下載功能就有點多餘了)，目前的想法就是在這裡顯示章節目錄，點選章節後再連結到對應的內文。雖然有點麻煩但確實是比較妥當的做法。
+
+這邊多衍生了一個問題，就是在內文中的章節跳換該怎麼處理，好比CZBooks的章節URL並沒有規律，所以我勢必得把這個頁面爬取的章節清單暫時儲存起來，在章節跳換的時候才能避免重複爬取。
+
+不過這個部分可以先容後再議，現在先一步步把畫面做出來要緊。
+
+```dart
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:novel_crawler_by_rockefeller/MyControls.dart';
+
+class ChapterListBody extends StatefulWidget
+{
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
+  }
+  
+}
+class _ChapterListBody extends State<ChapterListBody>
+{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+  
+}
+class ChapterListPage extends StatelessWidget
+{
+  String title;
+  String url;
+  ChapterListBody body = new ChapterListBody();
+  ChapterListPage(String title,String url)
+  {
+    this.title=title;
+    this.url = url;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: MyControls.commonAppBar(title, ()=>{}),
+      body: body,
+      );
+  }
+}
+```
+
+基本的架構就依照前一個頁面，採用`StatelessWidget`但在body的部分採用`StatefulWidget`。
