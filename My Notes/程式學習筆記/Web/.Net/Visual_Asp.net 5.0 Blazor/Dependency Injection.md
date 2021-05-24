@@ -388,9 +388,86 @@ Counter Page OnInitialized
 
 
 
-## 疑難待解
+### 疑難待解
 
 依然無法確定是不是如果要使用addSingleton就必須傳入已實例化的物件
 
 第一種寫法真的是錯的嗎?
+
+
+
+
+
+## 補充
+
+### ILoger
+
+剛發現這個滿好用的東西，內容沒有很多不適合另開筆記，所以決定先加入DI筆記的內容。
+
+顧名思義這一個用來記錄Log的介面。我們可以透過DI注入到Page中。
+
+參考資料:[MSDN](https://docs.microsoft.com/en-us/aspnet/core/blazor/fundamentals/logging?view=aspnetcore-5.0&pivots=webassembly)
+
+Loggers respect app startup configuration.
+
+The `using` directive for [Microsoft.Extensions.Logging](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging) is required to support [IntelliSense](https://docs.microsoft.com/en-us/visualstudio/ide/using-intellisense) completions for APIs, such as [LogWarning](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loggerextensions.logwarning) and [LogError](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loggerextensions.logerror).
+
+The following example demonstrates logging with an [ILogger](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger) in components.
+
+`Pages/Counter.razor`:
+
+
+
+```razor
+@page "/counter"
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Counter> logger;
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        logger.LogWarning("Someone has clicked me!");
+
+        currentCount++;
+    }
+}
+```
+
+The following example demonstrates logging with an [ILoggerFactory](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.iloggerfactory) in components.
+
+`Pages/Counter.razor`:
+
+
+
+```razor
+@page "/counter"
+@using Microsoft.Extensions.Logging;
+@inject ILoggerFactory LoggerFactory
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        var logger = LoggerFactory.CreateLogger<Counter>();
+        logger.LogWarning("Someone has clicked me!");
+
+        currentCount++;
+    }
+}
+```
 

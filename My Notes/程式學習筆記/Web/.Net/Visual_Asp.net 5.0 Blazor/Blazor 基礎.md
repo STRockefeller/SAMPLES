@@ -331,6 +331,31 @@ public sealed class WebAssemblyHost : IAsyncDisposable
 
 
 
+以下說明節錄自[ITHELP文章](https://ithelp.ithome.com.tw/articles/10240617)
+
+- `AppAssembly` 用於設定或取得組件，該組件下的可路由元件能被路由檢測。
+
+- `AdditionalAssemblies` 用於設定或取得額外的組件集，也就是當可路由元件在其他類別庫時能被檢測。
+
+  ```csharp
+  <Router
+      AppAssembly="@typeof(Program).Assembly"
+      AdditionalAssemblies="new[] { typeof(Component1).Assembly }">
+      ...
+  </Router>
+  ```
+
+- `Found` 用於設定或取得當路由匹配成功時所顯示的內容。
+
+- `NotFound` 用於設定或取得當路由匹配失敗時所顯示的內容。
+
+* `RouteView` 顯示指定的頁面元件，並可設定預設的版面配置。
+
+- `RouteData` 設定或取得路由資料，這決定了顯示的頁面以及提供給該頁面的參數值。
+- `DefaultLayout` 設定或取得預設的版面配置，當指定的頁面元件無設定版面配置時使用，會在後面介紹**版面配置**時詳細說明。
+
+
+
 ### wwwroot
 
 和其他ASP.net專案一樣用來放一些靜態資料。
@@ -371,6 +396,42 @@ Counter.razor
 ```
 
 最開頭的`@page "/counter"`代表我可以在網域名稱後加入"/counter"連結到這個頁面
+
+
+
+延伸說明:
+
+* 關於找不到路徑時的處理可以參考上方的 [App.razor](#App.razor)內容
+
+* 一個頁面可以有超過一條路由方式例如
+
+  ```C#
+  @page "/counter"
+  @page "/MyCounter"
+  ```
+
+  透過兩種路由都會導向到該頁面
+
+* ```
+  @page "/counter/{text}"
+  ```
+
+  代表`"/counter/"`後方加入任意內容都可以連結到該頁面。例如`/counter/ooxx` 或`/counter/1234asdf`
+
+* text後方可以在加入限制條件例如`{text:int}`可以限制輸入整數才能正確導向頁面，其他不行。
+
+  以下是支援的各種條件說明，節錄自ITHelp文章
+
+  | 條件約束 |        範例        |                        範例符合的項目                        |
+  | :------: | :----------------: | :----------------------------------------------------------: |
+  |   bool   |  `{active:bool}`   |                       `true`, `FALSE`                        |
+  | datetime | `{date: datetime}` |              `2020-09-21`, `2020-09-21 20:20pm`              |
+  | decimal  | `{price:decimal}`  |                    `29.99`, `-1,000,000`                     |
+  |  double  | `{weight:double}`  |                           `1.234`                            |
+  |  float   |  `{weight:float}`  |                           `12.34`                            |
+  |   guid   |    `{id:guid}`     | `CD2C1638-1638-72D5-1638-DEADBEEF1638`, `{CD2C1638-1638-72D5-1638-DEADBEEF1638}` |
+  |   int    |     `{id:int}`     |                             `1`                              |
+  |   long   |    `{id:long}`     |                            `123`                             |
 
 
 
