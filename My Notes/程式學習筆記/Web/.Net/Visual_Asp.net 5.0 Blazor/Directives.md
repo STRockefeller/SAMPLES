@@ -462,11 +462,15 @@ Razor provides event handling features for components. For more information, see
 
 ### `@on{EVENT}:preventDefault`
 
+用於取消HTML tag的預設動作
+
 *This scenario only applies to Razor components (.razor).*
 
 Prevents the default action for the event.
 
 ### `@on{EVENT}:stopPropagation`
+
+用於停止事件的傳遞，由於DOM的事件冒泡機制，當子元素被操作時代表父元素也同時被做了相同操作，`@on{EVENT}:stopPropagation`就可以在這種情況下阻止父元素的事件被觸發。
 
 *This scenario only applies to Razor components (.razor).*
 
