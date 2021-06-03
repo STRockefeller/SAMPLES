@@ -64,7 +64,7 @@ namespace Build_MarkDown_Path
             /// </summary>
             public string MDLink { get; set; }
 
-            private List<string> subNameConsent = new List<string>(new string[] { "md", "cs", "pdf", "txt" });
+            private List<string> subNameConsent = new List<string>(new string[] { "md", "cs", "pdf", "txt", "c", "cpp", "js", "html", "css" });
 
             public void buildMDLink()
             {

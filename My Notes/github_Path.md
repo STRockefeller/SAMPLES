@@ -1,5 +1,7 @@
 ## Github筆記路徑自動生成
-生成時間2021/6/2 上午 11:48:31
+生成時間2021/6/3 下午 04:22:38
+
+* [notion 筆記路徑生成原始碼](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/notion 筆記路徑生成原始碼.cs)
 
 ---
 ## 程式學習筆記 
@@ -12,10 +14,11 @@
 
 ---
 ## 程式學習筆記 C 
-* [scanf()特殊寫法 - 紅燒小站](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C/scanf()特殊寫法 - 紅燒小站.pdf)
+* [convert int and char](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C/convert int and char.c)
 * [scanfCommonTraps](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C/scanfCommonTraps.pdf)
 * [箭頭和點的不同](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C/箭頭和點的不同.md)
 * [記憶體空間配置](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C/記憶體空間配置.md)
+* [關於scanf](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C/關於scanf.md)
 
 ---
 ## 程式學習筆記 C# 
@@ -50,6 +53,7 @@
 ## 程式學習筆記 CPP 
 * [linked list](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/CPP/linked list.md)
 * [pointer](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/CPP/pointer.md)
+* [vector](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/CPP/vector.cpp)
 
 ---
 ## 程式學習筆記 Dart & Flutter 
@@ -68,7 +72,11 @@
 
 ---
 ## 程式學習筆記 OpenCV 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/OpenCV/readMe.txt)
+* [github 100問](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/OpenCV/github 100問.txt)
+
+---
+## 程式學習筆記 Web 
+* [html5 範本 包含本地js,css線上引用jquery,bootstrap](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/html5 範本 包含本地js,css線上引用jquery,bootstrap.html)
 
 ---
 ## 程式學習筆記 專案心得 
@@ -160,6 +168,10 @@
 * [PowerShell 基礎](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/BasicSkills/PowerShell/PowerShell 基礎.md)
 
 ---
+## 程式學習筆記 BasicSkills TDD 
+* [TDD 開發模式嘗試](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/BasicSkills/TDD/TDD 開發模式嘗試.md)
+
+---
 ## 程式學習筆記 C# DataBase ORM 
 * [Entity Framework](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/DataBase ORM/Entity Framework.md)
 * [LinQ to SQLite](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/DataBase ORM/LinQ to SQLite.md)
@@ -167,7 +179,12 @@
 
 ---
 ## 程式學習筆記 C# OpcUaClient 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/OpcUaClient/readMe.txt)
+* [OpcUaClient Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/OpcUaClient/OpcUaClient Basic.txt)
+
+---
+## 程式學習筆記 C# Unit Testing 
+* [NUnit](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/Unit Testing/NUnit.md)
+* [Unit Testing Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/Unit Testing/Unit Testing Basic.md)
 
 ---
 ## 程式學習筆記 C# WinForm 
@@ -181,7 +198,7 @@
 
 ---
 ## 程式學習筆記 C# WIX 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/WIX/readMe.txt)
+* [WIX Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/WIX/WIX Basic.txt)
 
 ---
 ## 程式學習筆記 CPP OpenCV 
@@ -197,11 +214,11 @@
 
 ---
 ## 程式學習筆記 SQL MySQL 
-* [說明](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/SQL/MySQL/說明.txt)
+* [MySQL Installation](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/SQL/MySQL/MySQL Installation.txt)
 
 ---
 ## 程式學習筆記 SQL SQLite 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/SQL/SQLite/readMe.txt)
+* [SQLite Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/SQL/SQLite/SQLite Basic.txt)
 * [SQLite Note](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/SQL/SQLite/SQLite Note.md)
 
 ---
@@ -210,20 +227,25 @@
 
 ---
 ## 程式學習筆記 Web boostrap4 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/boostrap4/readMe.txt)
+* [Navbar](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/boostrap4/Navbar.html)
+* [VSC Extension Recommend](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/boostrap4/VSC Extension Recommend.txt)
 * [畫面左右留有空白的情形](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/boostrap4/畫面左右留有空白的情形.txt)
 
 ---
 ## 程式學習筆記 Web gulp 
-* [ReadMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/gulp/ReadMe.txt)
+* [gulp Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/gulp/gulp Basic.txt)
+* [gulpfile](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/gulp/gulpfile.js)
 
 ---
 ## 程式學習筆記 Web html 
+* [input密碼欄位隱藏](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/html/input密碼欄位隱藏.html)
 * [url、href、src _ 程式前沿](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/html/url、href、src _ 程式前沿.pdf)
 
 ---
 ## 程式學習筆記 Web javascript 
 * [BOM&DOM](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/javascript/BOM&DOM.pdf)
+* [json serialize](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/javascript/json serialize.js)
+* [Logical_Operator](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/javascript/Logical_Operator.js)
 * [[javascript]如何用chrome,ie去debug javascript _ kevinya - 點部落](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/javascript/[javascript]如何用chrome,ie去debug javascript _ kevinya - 點部落.pdf)
 * [關於script_tag的位置](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/javascript/關於script_tag的位置.txt)
 
@@ -274,7 +296,7 @@
 
 ---
 ## 程式學習筆記 C# CommentDocumentTool SHFB 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/CommentDocumentTool/SHFB/readMe.txt)
+* [SHFB Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/C%23/CommentDocumentTool/SHFB/SHFB Basic.txt)
 
 ---
 ## 程式學習筆記 CPP OpenCV OpenCV 画像処理演習 
@@ -288,6 +310,7 @@
 * [Dependency Injection](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Dependency Injection.md)
 * [Directives](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Directives.md)
 * [Razor 拆分](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Razor 拆分.md)
+* [使用Javascript](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/使用Javascript.md)
 
 ---
 ## 程式學習筆記 Web .Net Visual_Asp.net Core MVC 
@@ -305,7 +328,7 @@
 
 ---
 ## 程式學習筆記 Web .Net Visual_Asp.net Core Web Project 
-* [ReadMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/ReadMe.txt)
+* [Web Project Recommend Setting](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/Web Project Recommend Setting.txt)
 
 ---
 ## 程式學習筆記 Web typeScript 使用VSCode 
@@ -319,6 +342,22 @@
 ---
 ## 程式學習筆記 Web typeScript 線上編輯 
 * [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/typeScript/線上編輯/readMe.txt)
+
+---
+## 解題心得 Uva 100 Uva100 
+* [main](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/Uva/100/Uva100/main.cpp)
+
+---
+## 解題心得 Uva 10107 What is the Median UVA10107 
+* [main](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/Uva/10107 What is the Median/UVA10107/main.cpp)
+
+---
+## 解題心得 Uva 10260 Soundex uva12062 
+* [main](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/Uva/10260 Soundex/uva12062/main.cpp)
+
+---
+## 解題心得 Uva 623 Uva623 
+* [main](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/Uva/623/Uva623/main.cpp)
 
 ---
 ## 程式學習筆記 CPP OpenCV OpenCV 画像処理演習 1.入出力編 
@@ -351,12 +390,16 @@
 
 ---
 ## 程式學習筆記 Web .Net Visual_Asp.net Core Web Project Login 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/Login/readMe.txt)
+* [登入驗證機制範例](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/Login/登入驗證機制範例.txt)
 
 ---
 ## 程式學習筆記 Web .Net Visual_Asp.net Core Web Project signalR 
-* [ReadMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/signalR/ReadMe.txt)
+* [SignalR Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/signalR/SignalR Basic.txt)
 
 ---
 ## 程式學習筆記 Web .Net Visual_Asp.net Core Web Project 更改default file 
-* [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/更改default file/readMe.txt)
+* [Change Default Files](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net Core Web Project/更改default file/Change Default Files.txt)
+
+---
+## 程式學習筆記 Web typeScript 使用VSCode 20200408-2 
+* [test](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/typeScript/使用VSCode/20200408-2/test.js)
