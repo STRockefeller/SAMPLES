@@ -93,3 +93,102 @@ Flutter doctor 也沒有問題
 
 有效
 
+
+
+## Fail to delete entry
+
+這是在flutter更新途中出現的問題(手賤看到有新版本就想更新...)
+
+狀況如下(一開始是`flutter upgrade`時出現的狀況跟下面差不多，後來我把視窗關掉執行`flutter doctor`如下)
+
+```powershell
+Microsoft Windows [版本 10.0.18363.815]
+(c) 2019 Microsoft Corporation. 著作權所有，並保留一切權利。
+
+C:\Users\admin>flutter doctor
+Building flutter tool...
+Running pub upgrade...
+Pub failed to delete entry because it was in use by another process.
+This may be caused by a virus scanner or having a file
+in the directory open in another application.
+Error (1): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (9 tries left)
+
+等候  0 秒後，按 CTRL+C 結束 ...
+Running pub upgrade...
+Pub failed to delete entry because it was in use by another process.
+This may be caused by a virus scanner or having a file
+in the directory open in another application.
+Error (1): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (8 tries left)
+
+等候  0 秒後，按 CTRL+C 結束 ...
+Running pub upgrade...
+Pub failed to delete entry because it was in use by another process.
+This may be caused by a virus scanner or having a file
+in the directory open in another application.
+Error (1): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (7 tries left)
+
+等候  0 秒後，按 CTRL+C 結束 ...
+Running pub upgrade...
+Pub failed to delete entry because it was in use by another process.
+This may be caused by a virus scanner or having a file
+in the directory open in another application.
+Error (1): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (6 tries left)
+
+等候  0 秒後，按 CTRL+C 結束 ...
+Running pub upgrade...
+Pub failed to delete entry because it was in use by another process.
+This may be caused by a virus scanner or having a file
+in the directory open in another application.
+Error (1): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (5 tries left)
+
+等候  4 秒後，按 CTRL+C 結束 ...
+要終止批次工作嗎 (Y/N)? y
+
+```
+
+
+
+1.執行`flutter pub pub cache repair`
+
+```powershell
+C:\Users\admin>flutter pub pub cache repair
+Building flutter tool...
+Running pub upgrade...
+Pub failed to delete entry because it was in use by another process.
+This may be caused by a virus scanner or having a file
+in the directory open in another application.
+Error (1): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (9 tries left)
+
+等候  1 秒後，按 CTRL+C 結束 ...
+要終止批次工作嗎 (Y/N)? y
+```
+
+無效
+
+
+
+2.以系統管理員身分執行
+
+```powershell
+C:\Windows\system32>flutter doctor
+Building flutter tool...
+Running pub upgrade...
+Downloading Material fonts...                                    1,256ms
+Downloading package sky_engine...                                  365ms
+Downloading flutter_patched_sdk tools...                           962ms
+Downloading flutter_patched_sdk_product tools...                   714ms
+Downloading windows-x64 tools...                                    5.9s
+Downloading windows-x64/font-subset tools...                       783ms
+Doctor summary (to see all details, run flutter doctor -v):
+[√] Flutter (Channel dev, 2.3.0-16.0.pre, on Microsoft Windows [Version 10.0.18363.815], locale zh-TW)
+[√] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
+[√] Chrome - develop for the web
+[√] Android Studio (version 4.1.0)
+[√] VS Code
+[√] Connected device (1 available)
+
+• No issues found!
+```
+
+有效
+
