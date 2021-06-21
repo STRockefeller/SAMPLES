@@ -1,7 +1,7 @@
 ## Github筆記路徑自動生成
-生成時間2021/6/3 下午 04:22:38
+生成時間2021/6/21 上午 08:55:54
 
-* [notion 筆記路徑生成原始碼](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/notion 筆記路徑生成原始碼.cs)
+
 
 ---
 ## 程式學習筆記 
@@ -66,13 +66,14 @@
 * [Flutter BuildContext](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter BuildContext.md)
 * [Flutter Navigator](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter Navigator.md)
 * [Flutter release apk](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter release apk.md)
+* [Flutter Right Click Menu](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter Right Click Menu.md)
 * [Flutter Scrollable Widgets](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter Scrollable Widgets.md)
 * [Flutter 基礎](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter 基礎.md)
 * [Flutter 專案基礎](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Dart & Flutter/Flutter 專案基礎.md)
 
 ---
 ## 程式學習筆記 OpenCV 
-* [github 100問](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/OpenCV/github 100問.txt)
+* [OpenCV 100問](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/OpenCV/OpenCV 100問.txt)
 
 ---
 ## 程式學習筆記 Web 
@@ -131,6 +132,7 @@
 ---
 ## 解題心得 未完成 
 * [CodeWars_Most frequently used words in a text](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/未完成/CodeWars_Most frequently used words in a text.md)
+* [CodeWars_Smallest Permutation](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/未完成/CodeWars_Smallest Permutation.md)
 * [LeetCode_Decoded String at Index](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/未完成/LeetCode_Decoded String at Index.md)
 * [LeetCode_Pairs of Songs With Total Durations Divisible by 60](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/未完成/LeetCode_Pairs of Songs With Total Durations Divisible by 60.md)
 * [LeetCode_Palindrome Partitioning](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/解題心得/未完成/LeetCode_Palindrome Partitioning.md)
@@ -232,6 +234,12 @@
 * [畫面左右留有空白的情形](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/boostrap4/畫面左右留有空白的情形.txt)
 
 ---
+## 程式學習筆記 Web Chrome Extension 
+* [Chrome Extension Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/Chrome Extension/Chrome Extension Basic.md)
+* [Chrome Extension Option Page](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/Chrome Extension/Chrome Extension Option Page.md)
+* [Manifest Version 3](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/Chrome Extension/Manifest Version 3.md)
+
+---
 ## 程式學習筆記 Web gulp 
 * [gulp Basic](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/gulp/gulp Basic.txt)
 * [gulpfile](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/gulp/gulpfile.js)
@@ -255,6 +263,7 @@
 
 ---
 ## 程式學習筆記 Web typeScript 
+* [exports_require_undefined](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/typeScript/exports_require_undefined.md)
 * [Linq in ts](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/typeScript/Linq in ts.md)
 * [readMe](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/typeScript/readMe.txt)
 * [雜項內容&心得](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/typeScript/雜項內容&心得.txt)
@@ -310,6 +319,7 @@
 * [Dependency Injection](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Dependency Injection.md)
 * [Directives](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Directives.md)
 * [Razor 拆分](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Razor 拆分.md)
+* [Unit Testing](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/Unit Testing.md)
 * [使用Javascript](https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes/程式學習筆記/Web/.Net/Visual_Asp.net 5.0 Blazor/使用Javascript.md)
 
 ---

@@ -8,6 +8,10 @@ https://medium.com/@dailyfluttermonster/how-to-create-a-flutter-chrome-extension
 
 
 
+現在找到大部分的文章都是適用於manifest version 2，無法在現在(2021/06)最新的manifest version 3正常運作，官方有提供[MV2轉MV3的相關指南](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-migration/)，我也會在閱讀MV3的文件之後更新筆記內容。
+
+
+
 ## 基本結構
 
 首先整理一個Chrome Extension的最低要求
