@@ -1,6 +1,6 @@
 ﻿$createFileName = "github_path_generate.md"
-$linkPath="https://github.com/STRockefeller/SAMPLES/tree/master/My%20Notes"
-$localPath = "Microsoft.PowerShell.Core\FileSystem::C:\Users\admin\Desktop\SAMPLES\My Notes"
+$linkPath="https://github.com/STRockefeller/MyProgrammingNote/tree/master/My%20Notes"
+$localPath = "Microsoft.PowerShell.Core\FileSystem::$pwd"
 function searchNote($location,[string]$header)
 {
     if($header -eq ""){$header="##"}
