@@ -10,7 +10,7 @@ function searchNote($location,[string]$header)
         $name = $($item.Name)
         if($name.Contains("."))
         {
-            $link=$item.PSpath.Replace($localPath,$linkPath).Replace("\","/")
+            $link=$item.PSpath.Replace($localPath,$linkPath).Replace("\","/").Replace(" ","%20")
 
             "* [$name]($link)"
         }
