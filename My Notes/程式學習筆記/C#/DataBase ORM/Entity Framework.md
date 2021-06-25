@@ -8,6 +8,8 @@
 
 [Reference:ITHELP](https://ithelp.ithome.com.tw/articles/10196856)
 
+[MSDN:其他提供者(SQL Server以外)相關](https://docs.microsoft.com/zh-tw/ef/core/providers/?tabs=dotnet-core-cli)
+
 
 
 ## 甚麼是Entity Framework
@@ -291,7 +293,7 @@ Unhandled exception. Microsoft.EntityFrameworkCore.DbUpdateException: An error o
 >
 > In **View -> SQL Object Explorer,** you will find the DataBase with its tables.
 
-```
+```powershell
 PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet tool uninstall --global dotnet-ef
 PS C:\Users\admin\source\repos\StockCrawlerTW_ByRockefeller> dotnet tool install --global dotnet-ef
 已成功安裝工具 'dotnet-ef' ('5.0.3' 版)。
@@ -313,4 +315,42 @@ Done.
 跑完目錄如下
 
 ![](https://i.imgur.com/JvZMY7m.png)
+
+
+
+
+
+## Use SQLite
+
+參考MSDN https://docs.microsoft.com/zh-tw/ef/core/providers/sqlite/?tabs=dotnet-core-cli
+
+新增provider https://github.com/ErikEJ/SqlCeToolbox/wiki/EF6-workflow-with-SQLite-DDEX-provider
+
+SQLite Code first https://dotblogs.com.tw/yc421206/2020/02/10/sqlite_code_first_migration
+
+https://vijayt.com/post/using-sqlite-database-in-net-with-linq-to-sql-and-entity-framework-6/
+
+
+
+## 疑難雜症
+
+### requires a primary key to be defined
+
+加入資料時發生的錯誤。
+
+代表需要定義primary key，這個錯誤是怎麼出現的目前還沒看出來，好像有時候就算沒定義KEY也不會出錯?
+
+```C#
+using System.ComponentModel.DataAnnotations;
+```
+
+然後把出錯的類別其中一個屬性加入`[Key]`標籤
+
+```C#
+    public class Hello 
+    {
+        [Key]
+        public string Greeting { get; set; } 
+    }
+```
 
