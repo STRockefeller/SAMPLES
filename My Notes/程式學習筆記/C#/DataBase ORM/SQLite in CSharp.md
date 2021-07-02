@@ -109,3 +109,13 @@ while (dr.Read())
 
 
 註 ：NO CURRENT ROW 錯誤訊息 需要加入 if(SqlDataReader.Read())條件進行以確保目前有資料 (即便select出來的只有一列亦是如此)
+
+
+
+## 關於`System.Data.Sqlite`以及`Microsoft.Data.Sqlite`的區別
+
+https://stackoverflow.com/questions/51933421/system-data-sqlite-vs-microsoft-data-sqlite
+
+https://docs.microsoft.com/zh-tw/dotnet/standard/data/sqlite/compare
+
+目前看來是兩邊同時有在發展，雙方有一部分的方法不互通，現階段只有Microsoft的版本對EF core和.net core支援。

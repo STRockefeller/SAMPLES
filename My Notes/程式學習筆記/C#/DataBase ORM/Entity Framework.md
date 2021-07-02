@@ -28,7 +28,7 @@ Entity Framework(太常懶得打，後面叫它EF就好)，是一種[ORM](https:
 
 這次使用的版本是 Entity Framework Core
 
-## EF Core
+## EF Core (MSDN tutorial)
 
 
 
@@ -320,7 +320,7 @@ Done.
 
 
 
-## Use SQLite
+## 其他(DB以SQLite為主)
 
 參考MSDN https://docs.microsoft.com/zh-tw/ef/core/providers/sqlite/?tabs=dotnet-core-cli
 
@@ -329,6 +329,69 @@ Done.
 SQLite Code first https://dotblogs.com.tw/yc421206/2020/02/10/sqlite_code_first_migration
 
 https://vijayt.com/post/using-sqlite-database-in-net-with-linq-to-sql-and-entity-framework-6/
+
+scafolding https://docs.microsoft.com/zh-tw/ef/core/managing-schemas/scaffolding?tabs=dotnet-core-cli
+
+
+
+### Scafolding
+
+#### MSDN官方提供的正規作法
+
+(前兩個是PM後一個是PS)，目前使用上有點問題，詳見疑難雜症
+
+```
+Scaffold-DbContext "Data Source=C:\MyDbName.db;" Microsoft.EntityFrameworkCore.Sqlite -outputdir /Models
+```
+
+```
+Scaffold-DbContext "Data Source=./atelierLaDiDaA11Sqlite.db;" Microsoft.EntityFrameworkCore.Sqlite -outputdir /DB
+```
+
+```
+dotnet ef dbcontext scaffold "Data Source=./atelierLaDiDaA11Sqlite.db" Microsoft.EntityFrameworkCore.Sqlite --output-dir /DB
+```
+
+
+
+#### 使用EFCorePowerTools
+
+https://github.com/ErikEJ/EFCorePowerTools/wiki/Reverse-Engineering
+
+按照WIKI來做
+
+目前是可以順利完成逆向工程，SQLite要點選add後面的倒三角形才能選到。
+
+data source 的部分使用相對路徑似乎無法使用(?)(待驗證)，使用絕對路徑則沒問題
+
+[No database provider has been configured for this DbContext](#No database provider has been configured for this DbContext)
+
+
+
+### RemoveAll
+
+我要說的是EF沒有`RemoveAll()`方法，取而代之的是`RemoveRange()`(`Remove()`也和原本Linq的用法不太一樣)，以下進行比較
+
+這是錯的
+
+```C#
+			using (var db = new A11DbContext())
+            {
+                db.Rorona.RemoveAll(r => String.IsNullOrEmpty(r.Name));
+                db.SaveChanges();
+            }
+```
+
+這是對的
+
+```C#
+			using (var db = new A11DbContext())
+            {
+                IQueryable<Rorona> toRemove = db.Rorona.Where(r => String.IsNullOrEmpty(r.Name));
+                db.Rorona.RemoveRange(toRemove);
+                db.SaveChanges();
+            }
+```
 
 
 
@@ -352,5 +415,42 @@ using System.ComponentModel.DataAnnotations;
         [Key]
         public string Greeting { get; set; } 
     }
+```
+
+
+
+### doesn't reference Microsoft.EntityFrameworkCore.Design.
+
+scaffolding 遇到的情況，專案是.net core component ，已經有在Nuget套件加入`Microsoft.EntityFrameworkCore.Design`但是依然會提示未安裝。
+
+```powershell
+PS D:\Projects\AtelierLaDiDa\AtelierLaDiDaDatabase> dotnet ef dbcontext scaffold "Data Source=./atelierLaDiDaA11Sqlite.db" Microsoft.EntityFrameworkCore.Sqlite --output-dir /DB
+Build started...
+Build succeeded.
+Your startup project 'AtelierLaDiDaDatabase' doesn't reference Microsoft.EntityFrameworkCore.Design. This package is required for the Entity Framework Core Tools to work. Ensure your startup project is correct, install the package, and try again.
+```
+
+目前還不知道怎麼解決，待補。
+
+
+
+### No database provider has been configured for this DbContext
+
+使用EFCorePowerTools生成的DBContext跳的例外
+
+```
+System.InvalidOperationException: 'No database provider has been configured for this DbContext. A provider can be configured by overriding the 'DbContext.OnConfiguring' method or by using 'AddDbContext' on the application service provider. If 'AddDbContext' is used, then also ensure that your DbContext type accepts a DbContextOptions<TContext> object in its constructor and passes it to the base constructor for DbContext.'
+```
+
+
+
+解決方式是在DBContext中override `OnConfiguring`方法
+
+```C#
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        {
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseSqlite(@"data source =D:\Projects\AtelierLaDiDa\AtelierLaDiDaDatabase\DataBases\atelierLaDiDaA11Sqlite.db");
+        }
 ```
 

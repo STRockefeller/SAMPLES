@@ -192,3 +192,76 @@ Doctor summary (to see all details, run flutter doctor -v):
 
 有效
 
+
+
+## Android Toolchain
+
+原本沒問題，執行完flutter upgrade後就出事啦，flutter每次都是更新就出事...
+
+```powershell
+C:\Users\admin>flutter doctor
+Doctor summary (to see all details, run flutter doctor -v):
+[√] Flutter (Channel dev, 2.3.0-24.0.pre, on Microsoft Windows [Version 10.0.18363.815], locale zh-TW)
+[!] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
+    X cmdline-tools component is missing
+      Run `path/to/sdkmanager --install "cmdline-tools;latest"`
+      See https://developer.android.com/studio/command-line for more details.
+    X Android license status unknown.
+      Run `flutter doctor --android-licenses` to accept the SDK licenses.
+      See https://flutter.dev/docs/get-started/install/windows#android-setup for more details.
+[√] Chrome - develop for the web
+[√] Android Studio (version 4.1.0)
+[√] VS Code
+[√] Connected device (1 available)
+
+! Doctor found issues in 1 category.
+```
+
+
+
+```powershell
+C:\Users\admin>flutter doctor --android-licenses
+Android sdkmanager not found. Update to the latest Android SDK and ensure that the cmdline-tools are installed to resolve this.
+```
+
+
+
+看敘述原因應該來自於sdkmanager位置遺失
+
+找了一下sdkmanager的路徑 `C:\Users\admin\AppData\Local\Android\Sdk\tools\bin` 是一個.bat檔案，試著照著提示install
+
+
+
+```powershell
+C:\Users\admin>C:\Users\admin\AppData\Local\Android\Sdk\tools\bin\sdkmanager.bat --install "cmdline-tools;latest"
+
+ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation.
+```
+
+
+
+哪那麼麻煩還要安裝java...
+
+換個方法看能不能從android studio修正這個問題
+
+在android studio 的 sdk manager-->android sdk-->sdk tools-->勾選 sdk command-line tools並安裝
+
+之後再次執行flutter doctor
+
+```powershell
+C:\Windows\System32>flutter doctor
+Doctor summary (to see all details, run flutter doctor -v):
+[√] Flutter (Channel dev, 2.3.0-24.0.pre, on Microsoft Windows [Version 10.0.18363.815], locale zh-TW)
+[√] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
+[√] Chrome - develop for the web
+[√] Android Studio (version 4.1.0)
+[√] VS Code
+[√] Connected device (1 available)
+
+• No issues found!
+```
+
+問題排除
