@@ -265,3 +265,27 @@ Doctor summary (to see all details, run flutter doctor -v):
 ```
 
 問題排除
+
+
+
+## Could not receive a message from the daemon.
+
+關熱點
+
+
+
+## 加入`android.permission.WRITE_EXTERNAL_STORAGE`權限後，`getApplicationDocumentsDirectory()`跳例外`Null check operator used on a null value`
+
+參考
+
+https://stackoverflow.com/questions/59598533/flutter-getapplicationdocumentsdirectory-returns-null
+
+https://medium.com/@sadabwasim/flutter-runtime-permission-d82461ff926c
+
+很有用的資訊不過都過時了，現版本的flutter會因為null safety 混用而無法執行這個pub`simple_permissions`
+
+```
+The library 'package:simple_permissions/simple_permissions.dart' is legacy, and should not be imported into a null safe library.
+```
+
+https://dart.dev/null-safety/unsound-null-safety

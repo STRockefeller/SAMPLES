@@ -2,23 +2,77 @@
 
 [Reference](https://www.codegrepper.com/code-examples/whatever/build+apk+in+flutter+in+visual+code)
 
+[Reference:Flutter.dev](https://flutter.dev/docs/deployment/android)
+
+本篇僅記錄release android apk的方法，不包含App bundle以及ios ipa事實上windows OS並不能接輸出ipa
+
+```powershell
+PS C:\Users\admin\AndroidStudioProjects\atelier_ladida> flutter build ipa
+Building for iOS is only supported on macOS.
+```
+
+App bundle有用到的時候可能會另外紀錄一篇筆記，也可能直接加入這篇
+
+ios的部分可能必須使用虛擬機或雲端環境才能搞定(參考[這篇文章](https://stackoverflow.com/questions/47006906/developing-for-ios-device-in-windows-environment-with-flutter))，總之都很麻煩，有空再試試。
+
+## Icons
+
+設定各種大小的Icon，可以使用[flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)套件來省掉一些麻煩
+
+在`pubspec.yaml`加入依賴之後將Icon圖放到assets資料夾，接著在`pubspec.yaml`添加以下程式碼指向圖片路徑、設定檔案名稱等等
+
+```yaml
+flutter_icons:
+  image_path: "assets/icons/ic_launcher.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+```
+
+在command line輸入下方程式碼，剩下的套件會幫我們完成
+
+```powershell
+flutter pub get
+flutter pub run flutter_launcher_icons:main
+```
+
+## Permissions
+
+**特別注意**:在debug的時候會預設開啟所有權限而不需要特別設定，打包前務必確認應用程式需要甚麼權限。
+
+到`\android\app\src\main\AndroidManifest.xml`設定android權限要求
+
+例如如果我需要使用網路
+
+```xml
+<manifest>
+    <application>
+        <!--Something Here-->
+    </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>
+```
+
+其他權限可以參考[Reference](https://codertw.com/android-%E9%96%8B%E7%99%BC/345051/)
+
+
+
+## Version name and version code
+
+參考[這篇](https://developer.android.com/studio/publish/versioning)
+
+在pubspec.yaml修改
+
+```
+version: 1.0.0+1
+```
+
+前面是version name 
+
+後面是version code 整數，數字越大版本越新
+
 ## Visual Studio Code
 
-查到如下兩個指令
-
-```
-flutter build apk --split-per-abi
-```
-
-```
-flutter build appbundle
-```
-
-都來試試
-
-
-
-首先第一個
+查到如下指令
 
 ```
 flutter build apk --split-per-abi
@@ -44,7 +98,7 @@ flutter build apk --split-per-abi
 
 再來看看help吧
 
-```
+```powershell
 PS C:\Users\admin\AndroidStudioProjects\novel_crawler_by_rockefeller> flutter build apk --help
 Build an Android APK file from your app.
 
@@ -119,7 +173,7 @@ Run "flutter help" to see global options.
 
 總之來執行看看
 
-```
+```powershell
 PS C:\Users\admin\AndroidStudioProjects\novel_crawler_by_rockefeller> flutter build apk --split-per-abi
 
 Building without sound null safety
@@ -134,3 +188,4 @@ Running Gradle task 'assembleRelease'... Done                     535.4s
 ```
 
 ![](https://i.imgur.com/BGx6yQi.png)
+

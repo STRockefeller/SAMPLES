@@ -58,11 +58,19 @@ void main() {
 
 分成整數的`int`和浮點數的`double`
 
-### strings
+### Strings
 
 `String `(S大寫)用於表示UTF-16編碼的字串，字串內容可用`''`或`""`包起來。
 
 另外可以用`Runes`表示UTF-32編碼，[參考資料](https://api.dart.dev/stable/2.10.5/dart-core/Runes-class.html)。
+
+插入變數的做法
+
+```dart
+"Hello ${name} !!"
+```
+
+
 
 ### Booleans
 
@@ -96,6 +104,13 @@ void main() {
    lst.add(13); 
    print(lst); 
 } 
+```
+
+List沒有distinct方法，不過可以透過以下方式做到相同效果
+
+```dart
+List<Item> items;
+items.toSet().toList();
 ```
 
 
@@ -295,6 +310,36 @@ void main() {
 用法和C一模一樣，沒什麼值得一提的
 
 
+
+### foreach
+
+dart foreach的用法和C#有一點點不一樣，特別提一下
+
+假設我有一個物件如下
+
+```dart
+List<Item> items = <Item>[];
+```
+
+如果要歷遍`items`有以下兩種做法
+
+作法一
+
+```dart
+for(Item item in items){
+    //...
+}
+```
+
+作法二
+
+```dart
+items.forEach((item){/*...*/});
+```
+
+
+
+順帶一提，[官方並不推薦使用作法二](https://dart-lang.github.io/linter/lints/avoid_function_literals_in_foreach_calls.html)
 
 ## Decision Making
 

@@ -685,6 +685,38 @@ l - Reparse point, symlink, etc.
 
 
 
+往下尋找使用參數 --recurse
+
+Example
+
+```powershell
+PS C:\Users\admin\Desktop\powershelltest> gci
+
+    Directory: C:\Users\admin\Desktop\powershelltest
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----         2021/7/12 下午 01:21                dsad
+-a---         2021/6/28 下午 03:10            510 test20210622.ps1
+
+PS C:\Users\admin\Desktop\powershelltest> gci -Recurse
+
+    Directory: C:\Users\admin\Desktop\powershelltest
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----         2021/7/12 下午 01:21                dsad
+-a---         2021/6/28 下午 03:10            510 test20210622.ps1
+
+    Directory: C:\Users\admin\Desktop\powershelltest\dsad
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---         2021/7/12 下午 01:21              0 hello.txt
+```
+
+
+
 ### New-Item
 
 用於建立檔案
@@ -799,4 +831,53 @@ Get-Alias: This command cannot find a matching alias because an alias with the d
 ```
 
 
+
+### Measure-Object
+
+取得總數
+
+Example
+
+```powershell
+PS C:\Users\admin\Desktop\Git\git-game-v2> git ls-files
+.gitignore
+.replit
+AllFiles/Graph/main.cpp
+AllFiles/Graph/prim.h
+AllFiles/LICENSE
+AllFiles/cleanbuild.mk
+AllFiles/definitions.mk
+AllFiles/dumpvar.mk
+AllFiles/factory_ramdisk.mk
+AllFiles/five/bash/spam/spam.sh
+AllFiles/four/four-file1
+AllFiles/four/four-file2
+AllFiles/four/four-file3
+AllFiles/four/four-file4
+AllFiles/four/four-file5
+AllFiles/github.html
+AllFiles/hello.cpp
+AllFiles/oem_image.mk
+AllFiles/one/array/array.cpp
+AllFiles/one/one-file1
+AllFiles/one/one-file2
+AllFiles/one/one-file3
+AllFiles/one/one-file4
+AllFiles/one/one-file5
+AllFiles/pdk_config.mk
+AllFiles/sdk-addon.mk
+AllFiles/three/linux/GNU/LinusTorvalds/linus
+AllFiles/two/algorithms/c++/c++.cpp
+AllFiles/ucr-cs100
+README.md
+PS C:\Users\admin\Desktop\Git\git-game-v2> git ls-files|Measure-Object
+
+
+Count    : 30
+Average  :
+Sum      :
+Maximum  :
+Minimum  :
+Property :
+```
 
