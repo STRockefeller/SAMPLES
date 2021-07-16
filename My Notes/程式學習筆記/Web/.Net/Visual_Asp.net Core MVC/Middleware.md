@@ -191,9 +191,9 @@
       }
       ```
 
-3. 在Configure裡面加入服務`services.AddSinglrton<Middleware_Class>();`
+3. 在Configure裡面加入服務`services.AddSingleton<Middleware_Class>();`
 
-   這個步驟只有繼承了IMiddleware的類別才要做(如果繼承了IMiddleware卻沒有加入服務會跳Exception)
+   這個步驟只有繼承了`IMiddleware`的類別才要做(如果繼承了`IMiddleware`卻沒有加入服務會跳Exception)
 
 4. 處理就response不處理就next
 
@@ -201,7 +201,7 @@
 
 ### 範例
 
-新建了兩個Middleware類別，其中一個繼承了IMiddleware，另一個則無
+新建了兩個Middleware類別，其中一個繼承了`IMiddleware`，另一個則無
 
 ```C#
 using System.Threading.Tasks;
