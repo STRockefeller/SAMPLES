@@ -10,7 +10,9 @@ https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?tabs=aspnetc
 
 ## Review with Questions
 
-請簡短說明cookies和session的區別以及使用時機。
+請簡短說明cookies和session的區別以及使用時機。 [Ans:Cookies](#Cookies) [Ans:Session](#Session)
+
+試著舉例能加強Session安全性的具體作法。 [Ans](#安全性)
 
 ---
 
